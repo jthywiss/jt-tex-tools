@@ -1,0 +1,445 @@
+%
+% utcs-title.sty -- LaTeX package to add a UTCS tech. report title page
+%
+% Created by jthywiss on 2012/02/02.
+%
+% Copyright (c) 2016 John A. Thywissen. Licensed under the LaTeX Project Public License.
+%
+
+%
+% This package was inspired by, uses a similar interface to, and reuses some
+% code from the CoverPage package. Copyright 2006 Matthias Muehlich, version
+% 2006/02/23 v1.01. CoverPage license: LaTeX Project Public License, v1.2+.
+%
+
+%%%%%%%%
+%: License Notice
+%%%%%%%%
+
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is John A. Thywissen.
+%
+% This work consists of this file.
+
+%%%%%%%%
+%: NOTICE -- READ BEFORE MODIFYING
+%%%%%%%%
+
+% Technical report title pages have specific requirements under U.S. and
+% international standards.  Do NOT modify this package without understanding:
+%
+% 1. ANSI/NISO. Scientific and Technical Reports -- Preparation, Presentation,
+%    and Preservation. Bethesda, MD: NISO Press; 2005. (Standard Z39.18-2005).
+%    Available from: http://www.niso.org/
+% 2. International Organization for Standardization. Documentation--
+%    Presentation of scientific and technical reports. Geneva: ISO; 1982.
+%    ISO 5966.
+% 3. Grey Literature International Steering Committee. Guidelines for the
+%    production of scientific and technical reports: How to write and
+%    distribute Grey Literature. Version 1.1. GLISC; 2007. Available from:
+%    http://www.glisc.info/
+% 4. Council of Science Editors. Scientific Style and Format: The CSE Manual
+%    for Authors, Editors, and Publishers. 7th ed. Reston, VA: CSE; 2006.
+%    ISBN: 0-9779665-0-X.
+% 5. Author's (preprint) version license terms of various CS publishers, such
+%    as ACM, IEEE. Springer, Elsevier, etc. 
+
+%%%%%%%%
+%: Package Declaration and Imports
+%%%%%%%%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{utcs-title}[2016/04/04 v1.1 UTCS title page generation  (JT)]
+
+\RequirePackage{keyval}
+\RequirePackage{url}
+\RequirePackage{color}
+\RequirePackage{graphicx}
+\RequirePackage{substr}
+\RequirePackage{opensans}
+
+%%%%%%%%
+%: Options
+%%%%%%%%
+
+% Package options
+\newif\ifTP@twoside
+\TP@twosidetrue
+\DeclareOption{twoside}{\TP@twosidetrue}
+\DeclareOption{oneside}{\TP@twosidefalse}
+\newif\ifTP@bib
+\TP@bibtrue
+\DeclareOption{bib}{\TP@bibtrue}
+\DeclareOption{nobib}{\TP@bibfalse}
+
+% TitlePageSetup options
+\def\TP@Type{Technical Report}
+\def\TP@In{Author's version --- Article forthcoming in}
+\def\TP@InSource{source undefined}
+\def\TP@SourceGiven{\def\TP@InSource{\TP@In\ \emph{\TP@Source}.}}
+\def\TP@Institute{Department of Computer Science, The University of Texas at
+  Austin}
+\def\TP@Copyright{\textcopyright\ \TP@Year\ \TP@Author}
+
+\define@key{TitlePage}{type}{\def\TP@Type{#1}}
+\define@key{TitlePage}{number}{\def\TP@Number{#1}}
+\define@key{TitlePage}{booktitle}{\def\TP@Source{#1}\TP@SourceGiven}
+\define@key{TitlePage}{journal}{\def\TP@Source{#1}\TP@SourceGiven}
+\define@key{TitlePage}{title}{\def\TP@Title{#1}}
+\define@key{TitlePage}{author}{\def\TP@Author{#1}}
+\define@key{TitlePage}{institute}{\def\TP@Institute{#1}}
+\define@key{TitlePage}{insource}{\def\TP@InSource{#1}}
+\define@key{TitlePage}{copyright}{\def\TP@Copyright{#1}}
+\define@key{TitlePage}{year}{\def\TP@Year{#1}}
+\define@key{TitlePage}{month}{\def\TP@Month{#1}\TP@CheckMonth}
+\define@key{TitlePage}{abstract}{\def\TP@Abstact{#1}}
+\define@key{TitlePage}{sponsorship}{\def\TP@Sponsorship{#1}}
+\define@key{TitlePage}{publisher}{\TPPublisherSetup{#1}}
+
+% Option invocation
+\ProcessOptions\relax
+\newcommand{\TitlePageSetup}[1]{\setkeys{TitlePage}{#1}}
+
+%%%%%%%%
+%: Title page data element checks and processing
+%%%%%%%%
+
+\newcommand\TP@CheckSetup{%
+  \@ifundefined{TP@Number}{%
+    \PackageWarningNoLine{utcs-title}{Missing number= parameter}%
+    \def\TP@Number{(TR number undefined)}%
+  }{}%
+  \@ifundefined{TP@Title}{%
+    \PackageWarningNoLine{utcs-title}{Missing title= parameter}%
+    \def\TP@Title{(title undefined)}%
+  }{}%
+  \@ifundefined{TP@Author}{%
+    \PackageWarningNoLine{utcs-title}{Missing author= parameter}%
+    \def\TP@Author{(author undefined)}%
+  }{}%
+  \@ifundefined{TP@Year}{%
+    \PackageWarningNoLine{utcs-title}{Missing year= parameter}%
+    \def\TP@Year{(year undefined)}%
+  }{}%
+  \@ifundefined{TP@monthName}{%
+    \PackageWarningNoLine{utcs-title}{Missing month= parameter}%
+    \def\TP@monthName{(month undefined)}%
+    \def\TP@monthAbbrev{(month undefined)}%
+  }{}%
+}
+
+% Author list "commma/and" fix-up
+\newcommand\commatoand[1]{%
+  \let\@formatsep\@formatsepinit
+  \@for\@ii:=#1\do{%
+    \IfBeforeSubStringEmpty{\formatsep }{\@ii}{\@ii}{\@formatsep \@ii}%
+  }%
+}
+\def\@formatsepinit{\let\@formatsep\formatsep}
+\newcommand\formatsep{ and}
+
+% Month names and abbreviations
+\def\TP@month@jan{January}
+\def\TP@month@feb{February}
+\def\TP@month@mar{March}
+\def\TP@month@apr{April}
+\def\TP@month@may{May}
+\def\TP@month@jun{June}
+\def\TP@month@jul{July}
+\def\TP@month@aug{August}
+\def\TP@month@sep{September}
+\def\TP@month@oct{October}
+\def\TP@month@nov{November}
+\def\TP@month@dec{December}
+\def\TP@monthabr@jan{Jan.}
+\def\TP@monthabr@feb{Feb.}
+\def\TP@monthabr@mar{Mar.}
+\def\TP@monthabr@apr{Apr.}
+\def\TP@monthabr@may{May}
+\def\TP@monthabr@jun{June}
+\def\TP@monthabr@jul{July}
+\def\TP@monthabr@aug{Aug.}
+\def\TP@monthabr@sep{Sep.}
+\def\TP@monthabr@oct{Oct.}
+\def\TP@monthabr@nov{Nov.}
+\def\TP@monthabr@dec{Dec.}
+
+\def\TP@CheckMonth{%
+  \@ifundefined{TP@month@\TP@Month}{
+    \PackageWarningNoLine{utcs-title}{Error in month= parameter: Use the BibTeX
+      standard month macros (three letters, all lower case)}
+    \def\TP@monthName{\emph{[Error in month=\TP@Month\ parameter: Use the BibTeX
+      standard month macros (three letters, all lower case)]}}
+    \def\TP@monthAbbrev{\emph{[Error in month=]}}
+  }{
+    \def\TP@monthName{\csname TP@month@\TP@Month\endcsname}
+    \def\TP@monthAbbrev{\csname TP@monthabr@\TP@Month\endcsname}
+  }
+}
+
+% Copyright message
+% The copyright text for author's preprints must include three aspects:
+%   1) copyright notice, 2) "author's version" wording, 3) publisher's required notice
+\def\TPPublisherSetup#1{%
+  \edef\TP@Publisher{#1}%
+  \def\TP@Compare{Springer}%
+  \ifx\TP@Publisher\TP@Compare
+    \def\TP@Copyright{\textcopyright\ \TP@Year\ Springer-Verlag.
+      % Our "author's version" notice:
+      This is an author's version of an accepted article. For the definitive
+      version, please see \emph{\TP@Source}.
+      % Springer's required wording:
+      The final publication will be available at \url{https://link.springer.com/}.}%
+  \else
+    \def\TP@Compare{IEEE}%
+    \ifx\TP@Publisher\TP@Compare
+      \def\TP@Copyright{\textcopyright\ \TP@Year\ IEEE.
+        % Our "author's version" notice:
+        This is an author's version of an accepted article. For the definitive
+        version, please see \emph{\TP@Source}.
+        % IEEE's required wording:
+        Personal use of this material is permitted. Permission from IEEE must
+        be obtained for all other uses, in any current or future media,
+        including reprinting/republishing this material for advertising or
+        promotional purposes, creating new collective works, for resale or
+        redistribution to servers or lists, or reuse of any copyrighted
+        component of this work in other works.}%
+    \else
+      \def\TP@Compare{ACM}%
+      \ifx\TP@Publisher\TP@Compare
+        \def\TP@Copyright{\textcopyright\ \TP@Year\ ACM.
+          % ACM's required wording: (good enough, don't need our notice)
+          This is the author's version of the work. It is posted here by
+          permission of ACM for your personal use. Not for redistribution.
+          The definitive version will be published in \emph{\TP@Source}.}%
+      \else
+        \def\TP@Compare{Elsevier}%
+        \ifx\TP@Publisher\TP@Compare
+          \def\TP@Copyright{\textcopyright\ \TP@Year\ Elsevier B.V.
+          % Elsevier's required wording: (good enough, don't need our notice)
+          This is the author's version of a work that was accepted for
+          publication in \emph{\TP@Source}. Changes resulting from the
+          publishing process, such as peer review, editing, corrections,
+          structural formatting, and other quality control mechanisms may not
+          be reflected in this document. Changes may have been made to this
+          work since it was submitted for publication. A definitive version
+          will be published in \emph{\TP@Source}.}%
+        \fi
+      \fi
+    \fi
+  \fi
+}
+
+%%%%%%%%
+%: Formatting
+%%%%%%%%
+
+\newdimen\TP@TitlePageWidth
+\newdimen\TP@TitlePageHeight
+\TP@TitlePageWidth=\paperwidth
+\TP@TitlePageHeight=\paperheight
+\advance\TP@TitlePageWidth by -1.5in
+\advance\TP@TitlePageHeight by -1.5in
+
+\newcommand{\TPSetTypefaces}{%
+  % UT-standard typefaces per: https://www.utexas.edu/brand-guidelines/visual-style-guide/fonts
+  \renewcommand{\rmdefault}{bch}% Bitstream Charter (Predecessor to Charis SIL)
+  \renewcommand{\bfdefault}{b}%
+  \renewcommand*{\sfdefault}{\opensans@family}% Open Sans
+}
+% UT-standard primary color
+\definecolor{burnt-orange}{rgb}{0.75,0.34,0.00} % Strong orange
+% UT-standard secondary colors
+\definecolor{dark-gray-blue}{rgb}{0.20,0.25,0.28} % Dark grayish cornflower blue / Very dark grayish blue
+\definecolor{dark-blue}{rgb}{0.00,0.37,0.53} % Strong cerulean / Dark blue
+\definecolor{dark-gray-green}{rgb}{0.26,0.41,0.36} % Dark grayish aquamarine / Very dark desaturated cyan - lime green
+\definecolor{vivid-amber}{rgb}{0.95,0.66,0.00} % Vivid amber / Pure orange
+\definecolor{dark-red-gray}{rgb}{0.22,0.18,0.17} % Dark scarletish gray / Very dark grayish red
+\definecolor{amberish-gray}{rgb}{0.84,0.82,0.77} % Light amberish gray / Grayish yellow
+\newcommand{\TPTRNumFont}{\large\sffamily\mdseries\upshape}
+\newcommand{\TPTitleFont}{\huge\rmfamily\bfseries\upshape}
+\newcommand{\TPAuthorFont}{\large\rmfamily\mdseries\scshape}
+\newcommand{\TPInstituteFont}{\normalsize\rmfamily\mdseries\upshape}
+\newcommand{\TPDateFont}{\large\rmfamily\mdseries\upshape}
+\newcommand{\TPInSourceFont}{\normalsize\rmfamily\mdseries\upshape}
+\newcommand{\TPAbstractFont}{\small\rmfamily\mdseries\upshape}
+\newcommand{\TPCopyrightFont}{\footnotesize\rmfamily\mdseries\upshape}
+\newcommand{\TPCitationFont}{\footnotesize\rmfamily\mdseries\upshape}
+
+%%%%%%%%
+%: Layout
+%%%%%%%%
+
+\newcommand{\TP@PrintTitlePages}{\bgroup\global\setbox255\vbox{%
+  \TPSetTypefaces
+  \TP@CheckSetup
+  \vspace*{-.25in}%
+  \noindent\hspace*{-.25in}%
+  \rlap{\begin{minipage}[t][\TP@TitlePageHeight][c]{\TP@TitlePageWidth}%
+    {\TitlePageHeader}%
+    \vfill%
+    {\TitlePageBody}%
+    \vfill%
+    {\TitlePageFooter}%
+  \end{minipage}}%
+}\egroup\shipout\box255%
+\ifTP@twoside
+\bgroup\global\setbox255\vbox{%
+  \TPSetTypefaces
+  \TP@CheckSetup
+  \vspace*{-.25in}%
+  \noindent\hspace*{-.25in}%
+  \rlap{\begin{minipage}[t][\TP@TitlePageHeight][c]{\TP@TitlePageWidth}%
+    {\TitlePageVerso}%
+    \vfill%
+  \end{minipage}}%
+}\egroup\shipout\box255%
+\fi
+}
+\AtBeginDocument{\TP@PrintTitlePages}
+
+\newcommand{\TitlePageHeader}{%
+    \parbox[t]{.5\textwidth}{%
+        \includegraphics[width=.45\textwidth]{PMSc_formal_Computer_Science}\par
+            \small\sffamily\mdseries\upshape \vspace{6pt}
+            2317 Speedway, Stop D9500 $\cdot\,$%
+            Austin, Texas  78712 $\cdot\,$%
+            USA\par
+            \vspace{4pt}
+            https://www.cs.utexas.edu/
+            }%
+    \hfill%
+    \parbox[t]{.4\textwidth}{%
+        \raggedleft \TPTRNumFont \TP@Type\ \TP@Number
+    }%
+}
+
+\newcommand{\TitlePageBody}{%
+    \parbox{\linewidth}{%
+        \centering%
+        \textcolor{burnt-orange}{\rule{\linewidth}{0.25pt}}\par
+        \vspace*{6pt}
+        {\TPTitleFont\TP@Title\par}
+        \vspace{14pt}
+        {\TPAuthorFont\TP@Author\par}
+%        \vspace{8pt}
+%        {\TPInstituteFont\TP@Institute\par}
+        \vspace{12pt}
+        {\TPDateFont \TP@monthName\ \TP@Year\par}
+        \def\TP@Compare{source undefined}%
+        \ifx\TP@InSource\TP@Compare
+        \else
+          \vspace{14pt}
+          {\TPInSourceFont\TP@InSource\par}
+        \fi
+        \vspace*{6pt}
+        \textcolor{burnt-orange}{\rule{\linewidth}{0.25pt}}\par
+    }%
+}
+
+\newcommand{\TitlePageFooter}{%
+    \normalfont
+\ifTP@twoside
+    \vfill%
+\else
+  \ifTP@bib  
+    {\TitlePageBibTeX}
+    \vspace{14pt}%
+  \fi
+    {\TPCitationFont\TitlePageCitation}
+    \vspace{18pt}%
+    {\TPCopyrightFont\TP@Copyright\par}
+    %\vspace{18pt}%
+\fi
+    {\TitlePageFooterInfo\hfill\TitlePageFooterLogo\par}%
+}
+
+\newcommand{\TitlePageFooterInfo}{}
+
+\newcommand{\TitlePageFooterLogo}{%
+%  \includegraphics[width=.25\textwidth]{UTwordmark2012Stack_CMYK}
+}
+
+
+\newcommand{\TitlePageVerso}{%
+    \normalfont
+    \vfill
+    \vfill
+    \@ifundefined{TP@Abstact}{}{%
+      {\TPAbstractFont\TitlePageAbstract\par}
+    }
+    \vfill
+    \@ifundefined{TP@Sponsorship}{}{%
+      {\TPCopyrightFont\TP@Sponsorship\par}
+    }
+    \vfill
+    {\TPCopyrightFont\TP@Copyright\par}
+    \vfill
+  \ifTP@bib  
+    {\TitlePageBibTeX}
+  \fi
+    \bigbreak
+    {\TPCitationFont\TitlePageCitation}
+    \vfill
+    \vfill
+}
+
+\newcommand{\TitlePageAbstract}{%
+  \hspace{.1\textwidth}\parbox{.8\textwidth}{%
+    {\centering\bfseries Abstract\par}\medskip
+	\renewcommand{\baselinestretch}{1.2}\TPAbstractFont%
+    \TP@Abstact\par
+  }
+}
+
+\@ifundefined{BibTeX}
+   {\def\BibTeX{{\rmfamily B\kern-.05em%
+    \textsc{i\kern-.025em b}\kern-.08em%
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}}{}
+\newcommand{\TitlePageBibTeX}{%
+    \noindent\textsf{\footnotesize \BibTeX:}\par
+    \vspace{.8ex}
+    {\scriptsize\ttfamily\hangindent=2em %
+		@techreport\{UTCS-\TP@Number,\\
+%			address = "Austin, TX",\\
+			author = "\commatoand{\TP@Author}",\\
+			institution = "Department of Computer Science, The University of
+			  Texas at Austin",\\
+        \@ifundefined{TP@Month}{}{
+			month = \TP@Month,\\  %no quotes -- uses month BibTeX macros
+        }
+        \def\TP@Compare{source undefined}%
+        \ifx\TP@InSource\TP@Compare
+        \else
+			note = "\TP@In\ \TP@Source.",\\
+        \fi
+			number = "\TP@Number",\\
+			title = "\TP@Title",\\
+			type = "\TP@Type",\\
+			url = "ftp://ftp.cs.utexas.edu/pub/techreports/\TP@Number .pdf",\\
+			year = "\TP@Year"\}
+    \par}%
+}
+
+\newcommand{\TitlePageCitation}{%
+    {\bfseries To be cited as:}\par
+    % Using IEEE bibliographic reference format
+    \TP@Author, ``\TP@Title,'' \TP@Institute, \TP@Type\ \TP@Number, \TP@Year\ \TP@monthAbbrev
+    \def\TP@Compare{source undefined}%
+    \ifx\TP@InSource\TP@Compare
+    \else
+         , \TP@In\ \emph{\TP@Source}%
+    \fi
+    . [Online]. Available: {\UrlFont ftp://ftp.cs.utexas.edu/pub/techreports/\TP@Number .pdf}\par
+}
+
+\endinput
