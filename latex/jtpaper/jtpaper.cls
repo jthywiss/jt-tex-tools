@@ -1,12 +1,17 @@
 %!TEX encoding = UTF-8 Unicode
 
 %
-% jtpaper.cls -- LaTeX class for a report on mathematical topics
+% jtpaper.cls -- LaTeX class for a paper on mathematical topics
 %
 % Created by jthywiss on 2016/03/29.
 %
-% Copyright (c) 2016 John A. Thywissen.
+% Copyright (c) 2016 John A. Thywissen. Licensed under the LaTeX Project Public License.
 %
+
+%%%%%%%%
+% License Notice
+%%%%%%%%
+
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
 % of this license or (at your option) any later version.
@@ -15,8 +20,15 @@
 % and version 1.3 or later is part of all distributions of LaTeX
 % version 2005/12/01 or later.
 %
-% This work consists of the file jtpaper.cls.
+% This work has the LPPL maintenance status `maintained'.
 %
+% The Current Maintainer of this work is John A. Thywissen.
+%
+% This work consists of this file.
+
+%%%%%%%%
+% Class Declaration
+%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{jtpaper}[2016/03/29 v1.0 Paper on mathematical topics (JT)]

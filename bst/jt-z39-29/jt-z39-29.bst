@@ -1133,7 +1133,9 @@ INTEGERS { nameptr namesleft numnames }
 FUNCTION {format.names}
 { 'bibinfo :=
   duplicate$ empty$ 'skip$ {
+  % hack-ish: Put spaces after initials
   "." ". " find.replace 
+  % hack-ish: Strip protected trailing spaces
   " }" "}" find.replace 
   's :=
   "" 't :=
