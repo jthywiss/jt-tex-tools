@@ -9,6 +9,39 @@
 %
 
 %%%%%%%%
+% Description
+%%%%%%%%
+
+% This LaTeX document class produces a straightforward document style for a scholarly
+% paper on mathematical, scientific, or engineering topics.  It is conceptually equivalent
+% to LaTeX's proc (or article) document class, but LaTeX base classes are obligated to
+% stay the same as their initial release (1985).  This class is strongly influenced by the
+% CSE (Council of Science Editors) style, and by the Chicago Manual of Style.
+%
+% Some style differences form the LaTeX base classes:
+% - Text width and height is appropriate for A4/US Letter trim size.
+% - With the titlepage option, abstract is placed on verso of title page.  (This does not yet
+%    produce a title page (and its verso) that is complete per NISO/ISO/GLISC standards.)
+% - Page running headers and footers are set up by default.
+% - Element names (chapter, figure, etc.) are spelled-out, per CMS. (autoref is set up, too.)
+% - Headings are title case.
+% - Float (table/figure) margins are a bit larger, per CSE suggestions.
+% - Headings and captions are formatted per CSE and CMS.
+% - Many enunciations (theorem-like environments) are declared.
+% - With the thmnumber option, most enunciations  are numbered (per style standards).
+% - ToC heading is "Contents", LoF is "Figures", and LoT is "Tables", per CMS.
+% - Typefaces are Bitstream Charter and Open Sans. Headings, etc. use Open Sans.
+
+% Council of Science Editors. Scientific Style and Format: The CSE Manual for Authors,
+%      Editors, and Publishers. 7th ed. Reston, VA: Council of Science Editors; 2006.
+%      ISBN: 0-9779665-0-X.
+% The University of Chicago Press. The Chicago Manual of Style. 16th ed. Chicago: The
+%     University of Chicago Press; 2010. ISBN: 978-0-226-10420-1.
+%  ANSI/NISO. Scientific and Technical Reports -- Preparation, Presentation, and
+%     Preservation. Bethesda, MD: NISO Press; 2005. (Standard Z39.18-2005).
+%     Available from: http://www.niso.org/
+
+%%%%%%%%
 % License Notice
 %%%%%%%%
 
@@ -115,9 +148,9 @@
 %  \PassOptionsToPackage{\CurrentOption}{geometry}
 %}
 \newif\ifMN@thmnumber
-\MN@thmnumberfalse
+\JP@thmnumberfalse
 \DeclareOption{thmnumber}{
-  \MN@thmnumbertrue
+  \JP@thmnumbertrue
 }
 
 % Option invocation
@@ -296,6 +329,48 @@
 %: Title
 %%%%%%%%
 
+% Notes for future use.  Here's what really belongs on a title page front and back:
+
+% Title page recto elements:
+%- Report number
+%- Report title and subtitle, if used (should be the same on the cover, title page, and report documentation page)
+%- Title and numbering of series, if the report is issued in a series
+%- Volume number (roman numerals)
+%- Author, principal investigator, editor, and/or compiler, with the primary creator listed first, per standard library cataloging practice
+%- Performing organization (author/creator affiliation)
+%- Publication data, including place of publication, publisher (which may or may not be the same as the sponsoring organization), and date (may also defer to the copyright page)
+%- Type of report and period covered, where applicable (conditional)
+%- Distribution limitations: preliminary, draft, working paper, preprint, security classification, restricted distribution, proprietary information
+%- Contract or grant number, where applicable (may defer to the copyright page)
+%- ISBN or ISSN
+%- Sponsoring or issuing organization (if different than the performing organization)
+%- Technical requirements (for example, video, audio, digital)
+%- Subject descriptors (e.g., keywords)
+%- Publisher's logo
+
+% Title page verso elements:
+%- The complete name of the sponsoring organization, including the contract number authorizing the research, and/or any organizations providing funding for the report
+%- Library of Congress Cataloging-in-Publication (CIP) Data
+%- An ISBN and/or ISSN
+%- The country in which the report was produced: the words ’Printed in [country]’,
+%- Permission for use of proprietary information, such as photo credits
+%- The mission statement of the producer, trademark information, and any disclaimers from the producer
+%- A copyright symbol, year, and the name of the copyright holder
+%- Authority to copy the contents or require permission from the producer prior to copying. While federal government publications may be freely copied by the public, a request for permission allows the publisher to track the uses of the report.
+%- The name, complete address, and phone number of the producer and how additional copies of the report may be obtained; a Web or email address, or both, may be included. Copyrights on reports are not always formally registered; material prepared for the U.S. Government is usually available for public dissemination without copyright.
+%- Abstracts and key words
+%- Name and e-mail address of the corresponding author
+%- Source(s) of support in the form of grants
+%- Copyright
+%- Date of submission
+%- Place and date of publication
+%- Other editorial responsibilities
+%- Citation form
+%- Word counts: text only (excluding abstract, acknowledgments, figure legends, and references); Abstract
+%- number of figures and tables
+%- legal notice (Disclaimer of liability; Not official position; etc.)
+%See CMS 1.19 for more details
+
 \if@titlepage
   \renewcommand\maketitle{\begin{titlepage}%
     \setlength{\parindent}{0pt}
@@ -436,7 +511,7 @@
 %      % Using IEEE bibliographic reference format
 %      Author, ``Title,'' Institute, Type\ Number, Year\ monthAbbrev
 %           , In\ \emph{Source}%
-%      . [Online]. Available: {\UrlFont ftp://ftp.cs.utexas.edu/pub/techreports/Number .pdf}\par
+%      . [Online]. Available: {\UrlFont https://www.example.invalid/path/to/paper.pdf}\par
 %    }
     \vfill
     \vfill
@@ -569,17 +644,17 @@
 %%%%%%%%
 
 % Define a theorem-like environment, which is numbered if the "thmnumber" option was given
-\newcommand{\MN@newthmenv}[2]{%
+\newcommand{\JP@newthmenv}[2]{%
   \ifMN@thmnumber\newtheorem{#1}{#2}\else\newtheorem*{#1}{#2}\fi%
   \expandafter\def\csname #1autorefname\endcsname{#2}%
 }
 % Define a theorem-like environment, which is never numbered
-\newcommand{\MN@newthmenvUnnum}[2]{%
+\newcommand{\JP@newthmenvUnnum}[2]{%
   \newtheorem*{#1}{#2}%
   \expandafter\def\csname #1autorefname\endcsname{#2}%
 }
 % Define a theorem-like environment, which is subordinately numbered if the "thmnumber" option was given
-\newcommand{\MN@newthmenvSubnum}[3]{%
+\newcommand{\JP@newthmenvSubnum}[3]{%
   \ifMN@thmnumber\newtheorem{#1}{#2}[#3]\else\newtheorem*{#1}{#2}\fi%
   \expandafter\def\csname #1autorefname\endcsname{#2}%
 }
@@ -607,18 +682,18 @@
 
 \theoremstyle{plain}
 
-\MN@newthmenv{theorem}{Theorem}
-\MN@newthmenv{conjecture}{Conjecture}
-\MN@newthmenv{corollary}{Corollary}
-\MN@newthmenv{proposition}{Proposition}
-\MN@newthmenv{lemma}{Lemma}
-\MN@newthmenv{algorithm}{Algorithm}
-\MN@newthmenv{assertion}{Assertion}
-\MN@newthmenv{axiom}{Axiom}
-\MN@newthmenv{criterion}{Criterion}
-\MN@newthmenv{hypothesis}{Hypothesis}
-\MN@newthmenv{reduction}{Reduction}
-\MN@newthmenvSubnum{sublemma}{Sublemma}{lemma}
+\JP@newthmenv{theorem}{Theorem}
+\JP@newthmenv{conjecture}{Conjecture}
+\JP@newthmenv{corollary}{Corollary}
+\JP@newthmenv{proposition}{Proposition}
+\JP@newthmenv{lemma}{Lemma}
+\JP@newthmenv{algorithm}{Algorithm}
+\JP@newthmenv{assertion}{Assertion}
+\JP@newthmenv{axiom}{Axiom}
+\JP@newthmenv{criterion}{Criterion}
+\JP@newthmenv{hypothesis}{Hypothesis}
+\JP@newthmenv{reduction}{Reduction}
+\JP@newthmenvSubnum{sublemma}{Sublemma}{lemma}
 
 % Possible definition-style theorem-like environments
 %   Condition  Exercise Solution
@@ -627,13 +702,13 @@
 
 \theoremstyle{definition}
 
-\MN@newthmenv{example}{Example}
-\MN@newthmenv{definition}{Definition}
-\MN@newthmenv{problem}{Problem}
-\MN@newthmenvUnnum{solution}{Solution}
-\MN@newthmenv{exercise}{Exercise}
-\MN@newthmenv{condition}{Condition}
-\MN@newthmenv{property}{Property}
+\JP@newthmenv{example}{Example}
+\JP@newthmenv{definition}{Definition}
+\JP@newthmenv{problem}{Problem}
+\JP@newthmenvUnnum{solution}{Solution}
+\JP@newthmenv{exercise}{Exercise}
+\JP@newthmenv{condition}{Condition}
+\JP@newthmenv{property}{Property}
 
 % Possible remark-style theorem-like environments
 %   Answer     Convention  Question
@@ -645,22 +720,22 @@
 
 \theoremstyle{remark}
 
-\MN@newthmenvUnnum{remark}{Remark}
-\MN@newthmenv{assumption}{Assumption}
-\MN@newthmenv{question}{Question}
-\MN@newthmenvUnnum{answer}{Answer}
-\MN@newthmenv{case}{Case}
-\MN@newthmenvSubnum{subcase}{Subcase}{case}
-\MN@newthmenv{claim}{Claim}
-\MN@newthmenvUnnum{comment}{Comment}
-\MN@newthmenvUnnum{conclusion}{Conclusion}
-\MN@newthmenvUnnum{convention}{Convention}
-\MN@newthmenvUnnum{discussion}{Discussion}
-\MN@newthmenvUnnum{fact}{Fact}
-\MN@newthmenvUnnum{notation}{Notation}
-\MN@newthmenvUnnum{note}{Note}
-\MN@newthmenvUnnum{observation}{Observation}
-\MN@newthmenvSubnum{step}{Step}{algorithm}
+\JP@newthmenvUnnum{remark}{Remark}
+\JP@newthmenv{assumption}{Assumption}
+\JP@newthmenv{question}{Question}
+\JP@newthmenvUnnum{answer}{Answer}
+\JP@newthmenv{case}{Case}
+\JP@newthmenvSubnum{subcase}{Subcase}{case}
+\JP@newthmenv{claim}{Claim}
+\JP@newthmenvUnnum{comment}{Comment}
+\JP@newthmenvUnnum{conclusion}{Conclusion}
+\JP@newthmenvUnnum{convention}{Convention}
+\JP@newthmenvUnnum{discussion}{Discussion}
+\JP@newthmenvUnnum{fact}{Fact}
+\JP@newthmenvUnnum{notation}{Notation}
+\JP@newthmenvUnnum{note}{Note}
+\JP@newthmenvUnnum{observation}{Observation}
+\JP@newthmenvSubnum{step}{Step}{algorithm}
 
 \renewenvironment{proof}[1][\proofname]{\par
   \pushQED{\qed}%
