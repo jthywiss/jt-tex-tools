@@ -19,7 +19,7 @@ LaTeX and BibTeX classes, packages, styles, etc. I have developed
 
 ## Bibliography
 
-Council of Science Editors. _Scientific Style and Format: The CSE Manual for Authors, Editors, and Publishers_. 7th ed. Reston, VA: Council of Science Editors; 2006. ISBN: 0-9779665-0-X.
+Council of Science Editors. _Scientific Style and Format: The CSE Manual for Authors, Editors, and Publishers_. 7th ed. Reston, VA: Council of Science Editors; 2006. ISBN: 978-0-9779665-0-9.
 
 The University of Chicago Press. _The Chicago Manual of Style_. 16th ed. Chicago: The University of Chicago Press; 2010. ISBN: 978-0-226-10420-1.
 
