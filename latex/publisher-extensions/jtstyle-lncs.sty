@@ -1,0 +1,212 @@
+%!TEX encoding = UTF-8 Unicode
+
+%
+% jtstyle-lncs.sty -- My LaTeX set up for use with LNCS papers
+%
+% Created by jthywiss on 2015/11/24.
+%
+% Copyright (c) 2016 John A. Thywissen. All rights reserved.
+%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{jtstyle-lncs}[2016/01/27 v1.1 J^T LaTeX set up for use with LNCS papers  (JT)]
+
+% Consider \RequirePackage{XXXXXX}
+\usepackage{amssymb,amsmath}
+\usepackage{stmaryrd}  % More math symbols
+\usepackage{enumerate}
+\usepackage[ligature,inference,shorthand]{semantic}
+\usepackage[colorlinks=true, pdfstartview=FitV, linkcolor=blue,
+  citecolor=blue, urlcolor=blue]{hyperref}
+\usepackage{datetime}
+\usepackage{color}
+\usepackage{ifdraft}
+
+
+\ifdraft{
+
+
+%%%%%%%%
+%: git describe
+%%%%%%%%
+
+\def\complainmissinggitdesc{\PackageError{jtstyle-lncs}{git describe failed}{%
+  The attempt to run "git describe" failed.\MessageBreak%
+  One probable cause: git is not in the permitted list of shell commands.\MessageBreak%
+  Check that the file\MessageBreak%
+  /usr/local/texlive/texmf-local/web2c/texmf.cnf\MessageBreak%
+  has the following entry:\MessageBreak%
+  shell_escape_commands = \ \MessageBreak%
+  bibtex,bibtex8,extractbb,kpsewhich,makeindex,mpost,repstopdf,git%
+}}
+
+\newread\gitstream
+\newcommand*\gitdescribe{}
+\openin\gitstream=|"git describe --dirty --tags --always"
+\ifeof\gitstream
+    \complainmissinggitdesc
+\else
+    \read\gitstream to \gitdescribe
+\fi
+
+%%%%%%%%
+%: LNCS trimmed page size
+%%%%%%%%
+
+\setlength{\paperwidth}{431pt}
+\setlength{\paperheight}{666pt}
+\ifx\pdfoutput\undefined
+\else
+  \setlength{\pdfpagewidth}{\paperwidth}
+  \setlength{\pdfpageheight}{\paperheight}
+\fi
+\setlength\topmargin       {-49pt}
+\setlength\oddsidemargin   {-30pt}
+\setlength\evensidemargin  {-30pt}
+
+}{} % end ifdraft
+
+
+%%%%%%%%
+%: Page styles -- add "DRAFT git-desc date time" footer
+%%%%%%%%
+
+\makeatletter
+
+\ifdraft{
+
+\def\ps@empty{%
+  \let\@mkboth\@gobbletwo
+  \let\@oddhead\@empty
+  \def\@oddfoot{\normalfont\small\color{darkened-orange} DRAFT \gitdescribe built \today~\currenttime\hfil}
+  \let\@evenhead\@empty
+  \let\@evenfoot\@oddfoot}
+
+\def\ps@plain{%
+  \let\@mkboth\@gobbletwo
+  \def\@oddhead{\normalfont\small\hfil\thepage}
+  \def\@oddfoot{\normalfont\small\color{darkened-orange} DRAFT \gitdescribe built \today~\currenttime\hfil}
+  \let\@evenhead\@empty
+  \let\@evenfoot\@oddfoot}
+
+\def\ps@headings{%
+  \let\@mkboth\@gobbletwo
+  \def\@oddhead{\normalfont\small\hfil\rightmark\hspace{\headlineindent}%
+                 \llap{\thepage}}
+  \def\@evenhead{\normalfont\small\rlap{\thepage}\hspace{\headlineindent}%
+                  \leftmark\hfil}
+  \def \@oddfoot {\normalfont\small\color{darkened-orange} DRAFT \gitdescribe built \today~\currenttime\hfil}%
+  \let\@evenfoot\@oddfoot
+  \def\chaptermark##1{}%
+  \def\sectionmark##1{}%
+  \def\subsectionmark##1{}}
+
+\def\ps@titlepage{%
+  \let\@mkboth\@gobbletwo
+  \def\@oddhead{\normalfont\small\hfil\hspace{\headlineindent}%
+                 \llap{\thepage}}
+  \def \@oddfoot {\normalfont\small\color{darkened-orange} DRAFT \gitdescribe built \today~\currenttime\hfil}%
+  \def\@evenhead{\normalfont\small\rlap{\thepage}\hspace{\headlineindent}%
+                  \hfil}
+  \let\@evenfoot\@oddfoot
+  \def\chaptermark##1{}%
+  \def\sectionmark##1{}%
+  \def\subsectionmark##1{}}
+
+}{} % end ifdraft
+
+\ps@headings
+
+\makeatother
+
+
+%%%%%%%%
+%: Misc other formatting configuration
+%%%%%%%%
+
+\urlstyle{sf}
+
+\newdateformat{dmmmyyyydate}{\THEDAY~\shortmonthname[\THEMONTH]~\THEYEAR}
+\dmmmyyyydate
+\settimeformat{xxivtime}
+
+\definecolor{burnt-orange}{cmyk}{0.00,0.65,1.00,0.09}
+\definecolor{darkened-orange}{cmyk}{0.1,0.85,1.00,0.29}
+
+%%%%%%%%
+%: autoref set up
+%%%%%%%%
+
+\def\equationautorefname{Equation}
+\def\footnoteautorefname{footnote}
+\def\itemautorefname{item}
+\def\figureautorefname{\figurename}
+\def\tableautorefname{Table}
+\def\partautorefname{Part}
+\def\appendixautorefname{Appendix}
+\def\chapterautorefname{Section}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Section}
+\def\subsubsectionautorefname{Section}
+\def\paragraphautorefname{Section}
+\def\subparagraphautorefname{Section}
+\def\theoremautorefname{Theorem}
+\def\pageautorefname{page}
+
+
+%%%%%%%%
+%: Enunciations
+%%%%%%%%
+
+% Possible theorem-like environments:
+%   Algorithm  Corollary  Proposition
+%   Assertion  Criterion  Reduction
+%   Axiom      Hypothesis Sublemma
+%   Conjecture Lemma      Theorem
+
+% llncs.cls already defines these:
+%   proposition
+%   lemma
+%   theorem
+%   corollary
+
+
+% Possible definition-style theorem-like environments
+%   Condition  Exercise Solution
+%   Definition Problem
+%   Example    Property
+
+% llncs.cls already defines these:
+%   definition
+%   problem
+%   solution
+%   example
+%   property
+%   exercise
+
+
+% Possible remark-style theorem-like environments
+%   Answer     Convention  Question
+%   Assumption Discussion  Remark
+%   Case       Fact        Step
+%   Claim      Notation    Subcase
+%   Comment    Note
+%   Conclusion Observation
+
+% llncs.cls already defines these:
+%   case
+%   note
+%   conjecture
+%   question
+%   remark
+
+
+%%%%%%%%
+%: Misc commands
+%%%%%%%%
+
+\newcommand\TODO[1]{{\small\color{burnt-orange}\textsf{TODO:} #1}}
+%\newcommand\TODO[1]{\vspace{4pt}{\small\color{burnt-orange}\textsf{TODO:} #1}\vspace{4pt}}
+
+
+\endinput
