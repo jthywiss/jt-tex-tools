@@ -7,7 +7,7 @@
 %
 
 %%%%%%%%
-% Description
+%: Description
 %%%%%%%%
 
 % This BibTeX bibliography style produces a bibliographic reference list that is intended to
@@ -19,8 +19,12 @@
 % This BibTeX bibliography style is compatible with the natbib package, and with author/date
 % in-text citations. The BibTeX cross-referencing feature is _NOT_ supported.
 
+% National Information Standards Organization. Bibliographic References. 
+%    Bethesda, MD: NISO Press; 2005. (ANSI/NISO Z39.29-2005 (R2010)). 
+%    Available from: http://www.niso.org/
+
 %%%%%%%%
-% License Notice
+%: License Notice
 %%%%%%%%
 
 % This work may be distributed and/or modified under the
@@ -38,7 +42,7 @@
 % This work consists of this file.
 
 %%%%%%%%
-% Provenance
+%: Provenance
 %%%%%%%%
 
 % This file started with modified version of vancouver-authoryear, then updated
@@ -73,7 +77,7 @@
 % -------
 
 %%%%%%%%
-% Fields
+%: Fields
 %%%%%%%%
 
 ENTRY
@@ -188,7 +192,7 @@ ENTRY
   { label extra.label sort.label short.list }
 
 %%%%%%%%
-%
+%:
 %%%%%%%%
 
 % Each entry function starts by calling output.bibitem, to write the
@@ -330,12 +334,13 @@ ENTRY
 %  END
 %
 
-%%%%%%%%
-%
-%%%%%%%%
-
 %% Declaration of integer variables
 INTEGERS { output.state before.all mid.sentence after.sentence after.block }
+
+%%%%%%%%
+%: Link Output Logic
+%%%%%%%%
+
 % urlbst...
 STRINGS { 
   openinlinelink closeinlinelink }
@@ -524,6 +529,10 @@ FUNCTION {format.lastchecked}
 }
 % ...urlbst to here
 
+%%%%%%%%
+%: Output Functions
+%%%%%%%%
+
 FUNCTION {output}
 { duplicate$ empty$
     'pop$
@@ -591,7 +600,7 @@ FUNCTION {new.group}
 }
 
 %%%%%%%%
-% Boolean Logic Functions
+%: Boolean Logic Functions
 %%%%%%%%
 
 % These three functions pop one or two (integer) arguments from the stack
@@ -618,7 +627,7 @@ FUNCTION {or}
 }
 
 %%%%%%%%
-% Character String Utility Functions
+%: Character String Utility Functions
 %%%%%%%%
 
 % issues warning if field is empty
@@ -915,7 +924,7 @@ FUNCTION {space.word}
 { " " swap$ * " " * }
 
 %%%%%%%%
-% Natural Language Strings
+%: Natural Language Strings
 %%%%%%%%
 
  % Here are the language-specific definitions for explicit words.
@@ -1061,7 +1070,7 @@ MACRO {nov} {"Nov"}
 MACRO {dec} {"Dec"}
 
 %%%%%%%%
-% Convert to Ordinal Number
+%: Convert to Ordinal Number
 %%%%%%%%
 
 FUNCTION {eng.ord}
@@ -1086,7 +1095,7 @@ FUNCTION {eng.ord}
 }
 
 %%%%%%%%
-% Field Formatting and Output
+%: Field Formatting and Output
 %%%%%%%%
 
 FUNCTION {bibinfo.check}
@@ -2060,7 +2069,7 @@ FUNCTION {fin.entry}
 }
 
 %%%%%%%%
-% Entry Types
+%: Entry Types
 %%%%%%%%
 
 % Now we define the type functions for all entry types that may appear
@@ -2742,7 +2751,7 @@ FUNCTION {booklet}
 FUNCTION {default.type} { misc }
 
 %%%%%%%%
-% Read Bibliography Data File
+%: Read Bibliography Data File
 %%%%%%%%
 
 % Now we read in the .BIB entries.
@@ -2750,7 +2759,7 @@ FUNCTION {default.type} { misc }
 READ
 
 %%%%%%%%
-% Sorting
+%: Sorting
 %%%%%%%%
 
 % The sortify function converts to lower case after purify$ing; it's
@@ -3215,7 +3224,7 @@ FUNCTION {bib.sort.order}
 ITERATE {bib.sort.order}
 
 %%%%%%%%
-% Output the Built Bibliography
+%: Output the Built Bibliography
 %%%%%%%%
 
 % Now we're ready to start writing the .BBL file.

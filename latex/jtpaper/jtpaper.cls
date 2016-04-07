@@ -1,7 +1,7 @@
 %!TEX encoding = UTF-8 Unicode
 
 %
-% jtpaper.cls -- LaTeX class for a paper on mathematical topics
+% jtpaper.cls -- LaTeX class for a paper on mathematical, scientific, or engineering topics
 %
 % Created by jthywiss on 2016/03/29.
 %
@@ -9,14 +9,15 @@
 %
 
 %%%%%%%%
-% Description
+%: Description
 %%%%%%%%
 
 % This LaTeX document class produces a straightforward document style for a scholarly
 % paper on mathematical, scientific, or engineering topics.  It is conceptually equivalent
 % to LaTeX's proc (or article) document class, but LaTeX base classes are obligated to
-% stay the same as their initial release (1985).  This class is strongly influenced by the
-% CSE (Council of Science Editors) style, and by the Chicago Manual of Style.
+% stay the same as their initial release (1985), so they cannot track "best practices".
+% This class is strongly influenced by the CSE (Council of Science Editors) style, and by
+% the Chicago Manual of Style.
 %
 % Some style differences form the LaTeX base classes:
 % - Text width and height is appropriate for A4/US Letter trim size.
@@ -37,12 +38,12 @@
 %      ISBN: 0-9779665-0-X.
 % The University of Chicago Press. The Chicago Manual of Style. 16th ed. Chicago: The
 %     University of Chicago Press; 2010. ISBN: 978-0-226-10420-1.
-%  ANSI/NISO. Scientific and Technical Reports -- Preparation, Presentation, and
-%     Preservation. Bethesda, MD: NISO Press; 2005. (Standard Z39.18-2005).
-%     Available from: http://www.niso.org/
+% National Information Standards Organization. Scientific and Technical Reports -- 
+%    Preparation, Presentation, and Preservation. Bethesda, MD: NISO Press; 2005.
+%    (ANSI/NISO Z39.18-2005 (R2010)). Available from: http://www.niso.org/
 
 %%%%%%%%
-% License Notice
+%: License Notice
 %%%%%%%%
 
 % This work may be distributed and/or modified under the
@@ -60,7 +61,7 @@
 % This work consists of this file.
 
 %%%%%%%%
-% Class Declaration
+%: Class Declaration
 %%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
