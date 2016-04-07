@@ -34,10 +34,10 @@
 % - Typefaces are Bitstream Charter and Open Sans. Headings, etc. use Open Sans.
 
 % Council of Science Editors. Scientific Style and Format: The CSE Manual for Authors,
-%      Editors, and Publishers. 7th ed. Reston, VA: Council of Science Editors; 2006.
-%      ISBN: 0-9779665-0-X.
+%    Editors, and Publishers. 7th ed. Reston, VA: Council of Science Editors; 2006.
+%    ISBN: 978-0-9779665-0-9.
 % The University of Chicago Press. The Chicago Manual of Style. 16th ed. Chicago: The
-%     University of Chicago Press; 2010. ISBN: 978-0-226-10420-1.
+%    University of Chicago Press; 2010. ISBN: 978-0-226-10420-1.
 % National Information Standards Organization. Scientific and Technical Reports -- 
 %    Preparation, Presentation, and Preservation. Bethesda, MD: NISO Press; 2005.
 %    (ANSI/NISO Z39.18-2005 (R2010)). Available from: http://www.niso.org/
@@ -148,7 +148,7 @@
 %\DeclareOption{margin}{
 %  \PassOptionsToPackage{\CurrentOption}{geometry}
 %}
-\newif\ifMN@thmnumber
+\newif\ifJP@thmnumber
 \JP@thmnumberfalse
 \DeclareOption{thmnumber}{
   \JP@thmnumbertrue
@@ -173,7 +173,7 @@
     ]{geometry}
 \else
   \RequirePackage[
-    textwidth=422pt,
+    textwidth=422pt, %480pt ?
     textheight=626pt,
     heightrounded,
     marginratio={9:7, 3:4}
@@ -332,45 +332,40 @@
 
 % Notes for future use.  Here's what really belongs on a title page front and back:
 
-% Title page recto elements:
+% Title page front/recto elements:
 %- Report number
+%- ISSN (top right) [ISBN, too?]
 %- Report title and subtitle, if used (should be the same on the cover, title page, and report documentation page)
+%- Volume number (arabic numerals), and volume title
 %- Title and numbering of series, if the report is issued in a series
-%- Volume number (roman numerals)
 %- Author, principal investigator, editor, and/or compiler, with the primary creator listed first, per standard library cataloging practice
 %- Performing organization (author/creator affiliation)
-%- Publication data, including place of publication, publisher (which may or may not be the same as the sponsoring organization), and date (may also defer to the copyright page)
 %- Type of report and period covered, where applicable (conditional)
-%- Distribution limitations: preliminary, draft, working paper, preprint, security classification, restricted distribution, proprietary information
 %- Contract or grant number, where applicable (may defer to the copyright page)
-%- ISBN or ISSN
 %- Sponsoring or issuing organization (if different than the performing organization)
-%- Technical requirements (for example, video, audio, digital)
-%- Subject descriptors (e.g., keywords)
+%- Publication data, including place of publication, publisher (which may or may not be the same as the sponsoring organization), and date (may also defer to the copyright page)
 %- Publisher's logo
+%- Technical requirements (for example, video, audio, digital)
+%- Distribution limitations: preliminary, draft, working paper, preprint, security classification, restricted distribution, proprietary information
 
-% Title page verso elements:
-%- The complete name of the sponsoring organization, including the contract number authorizing the research, and/or any organizations providing funding for the report
-%- Library of Congress Cataloging-in-Publication (CIP) Data
-%- An ISBN and/or ISSN
+% Title page back/verso elements:
+%- Author biographical note (previous pubs and affiliation) (top of page)
+%- Name and e-mail address of the corresponding author
+%- The name, complete address, and phone number of the publisher and how additional copies of the report may be obtained; a Web or email address, or both, may be included.
+%- A copyright symbol, year, and the name of the copyright holder
+%- Authority to copy the contents or require permission from the producer prior to copying. A request for permission allows the publisher to track the uses of the report.
+%- Legal notice (Disclaimer of liability; Not official position; etc.)
+%- Edition history (see CMS 1.25)
 %- The country in which the report was produced: the words ’Printed in [country]’,
 %- Permission for use of proprietary information, such as photo credits
-%- The mission statement of the producer, trademark information, and any disclaimers from the producer
-%- A copyright symbol, year, and the name of the copyright holder
-%- Authority to copy the contents or require permission from the producer prior to copying. While federal government publications may be freely copied by the public, a request for permission allows the publisher to track the uses of the report.
-%- The name, complete address, and phone number of the producer and how additional copies of the report may be obtained; a Web or email address, or both, may be included. Copyrights on reports are not always formally registered; material prepared for the U.S. Government is usually available for public dissemination without copyright.
-%- Abstracts and key words
-%- Name and e-mail address of the corresponding author
 %- Source(s) of support in the form of grants
-%- Copyright
-%- Date of submission
-%- Place and date of publication
-%- Other editorial responsibilities
+%- The complete name of the sponsoring organization, including the contract number authorizing the research, and/or any organizations providing funding for the report
+%- An ISBN and/or ISSN
+%- Library of Congress Cataloging-in-Publication (CIP) Data
 %- Citation form
-%- Word counts: text only (excluding abstract, acknowledgments, figure legends, and references); Abstract
-%- number of figures and tables
-%- legal notice (Disclaimer of liability; Not official position; etc.)
-%See CMS 1.19 for more details
+%- Abstracts and subject descriptors/keywords
+%- Word counts: text only (excluding abstract, acknowledgments, figure legends, and references)
+%- Number of: pages, figures, and tables
 
 \if@titlepage
   \renewcommand\maketitle{\begin{titlepage}%
@@ -543,6 +538,7 @@
     \@mkboth{\contentsname}{\contentsname}}%
   \@starttoc{toc}%
 }
+% Style note: Table of Contents required if report > 20 pages.
 
 %%%%%%%%
 %: List of Figures
@@ -553,6 +549,7 @@
   \@mkboth{\listfigurename}{\listfigurename}%
   \@starttoc{lof}%
 }
+% Style note: List of Figures & List of Tables required if fig+tables > 5
 
 %%%%%%%%
 %: List of Tables
@@ -563,6 +560,7 @@
   \@mkboth{\listtablename}{\listtablename}%
   \@starttoc{lot}%
 }
+% Style note: List of Figures & List of Tables required if fig+tables > 5
 
 %%%%%%%%
 %: Bibliography
@@ -606,6 +604,7 @@
     \columnsep 35\p@
     \let\item\@idxitem}
   {\if@restonecol\onecolumn\else\clearpage\fi}
+% Style note: Index required if report ≥ 50 pages
 
 %%%%%%%%
 %: Float separation
@@ -646,7 +645,7 @@
 
 % Define a theorem-like environment, which is numbered if the "thmnumber" option was given
 \newcommand{\JP@newthmenv}[2]{%
-  \ifMN@thmnumber\newtheorem{#1}{#2}\else\newtheorem*{#1}{#2}\fi%
+  \ifJP@thmnumber\newtheorem{#1}{#2}\else\newtheorem*{#1}{#2}\fi%
   \expandafter\def\csname #1autorefname\endcsname{#2}%
 }
 % Define a theorem-like environment, which is never numbered
@@ -656,7 +655,7 @@
 }
 % Define a theorem-like environment, which is subordinately numbered if the "thmnumber" option was given
 \newcommand{\JP@newthmenvSubnum}[3]{%
-  \ifMN@thmnumber\newtheorem{#1}{#2}[#3]\else\newtheorem*{#1}{#2}\fi%
+  \ifJP@thmnumber\newtheorem{#1}{#2}[#3]\else\newtheorem*{#1}{#2}\fi%
   \expandafter\def\csname #1autorefname\endcsname{#2}%
 }
 
@@ -809,6 +808,7 @@
   \def\@evenfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@page}\hfil{\JPfoot@restrict}\hfil{\JPfoot@date}}%
 }
 
+%TODO: Running heads on even pages should be the **first** "leftmark" on that page, and on odd pages should be the **last** "rightmark" on that page.
 \if@twoside
   \def\ps@headings{%
     \def\@oddhead{\sffamily\rlap{\headrule}\hfil\hfil{\rightmark}}%
