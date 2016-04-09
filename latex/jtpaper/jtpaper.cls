@@ -169,14 +169,16 @@
     textwidth=506pt,
     textheight=626pt,
     heightrounded,
-    marginratio={9:7, 3:4}
+    marginratio={9:7, 3:4},
+    marginparwidth=20pt % Too small to be of much use
     ]{geometry}
 \else
   \RequirePackage[
     textwidth=422pt, %480pt ?
     textheight=626pt,
     heightrounded,
-    marginratio={9:7, 3:4}
+    marginratio={9:7, 3:4},
+    marginparwidth=44pt % Too small to be of much use
     ]{geometry}
 \fi
 \RequirePackage[defaultsans,scale=0.95]{opensans}
@@ -185,7 +187,8 @@
 \RequirePackage{amsthm}
 \RequirePackage{stmaryrd}  % More math symbols
 \RequirePackage{color}
-\RequirePackage[colorlinks=true, pdfstartview=FitV, linkcolor=blue,
+\RequirePackage{varioref}
+\RequirePackage[final, colorlinks=true, pdfstartview=FitV, linkcolor=blue,
   citecolor=blue, urlcolor=blue]{hyperref}
 \RequirePackage{datetime}
 \RequirePackage{lastpage}
@@ -288,20 +291,21 @@
 
 % autoref set up
 
-\def\equationautorefname{\MakeLowercase\equationname}
-\def\footnoteautorefname{\MakeLowercase\footnotename}
-\def\itemautorefname{\MakeLowercase\itemname}
-\def\figureautorefname{\MakeLowercase\figurename}
-\def\tableautorefname{\MakeLowercase\tablename}
-\def\partautorefname{\MakeLowercase\partname}
-\def\appendixautorefname{\MakeLowercase\appendixname}
-\def\chapterautorefname{\MakeLowercase\sectionname}
-\def\sectionautorefname{\MakeLowercase\sectionname}
-\def\subsectionautorefname{\MakeLowercase\sectionname}
-\def\subsubsectionautorefname{\MakeLowercase\sectionname}
-\def\paragraphautorefname{\MakeLowercase\sectionname}
-\def\subparagraphautorefname{\MakeLowercase\sectionname}
-\def\pageautorefname{\MakeLowercase\pagename}
+\renewcommand\equationautorefname{\MakeLowercase\equationname}
+\renewcommand\footnoteautorefname{\MakeLowercase\footnotename}
+\renewcommand\itemautorefname{\MakeLowercase\itemname}
+\renewcommand\figureautorefname{\MakeLowercase\figurename}
+\renewcommand\tableautorefname{\MakeLowercase\tablename}
+\renewcommand\partautorefname{\MakeLowercase\partname}
+\renewcommand\appendixautorefname{\MakeLowercase\appendixname}
+\renewcommand\chapterautorefname{\MakeLowercase\sectionname}
+\renewcommand\sectionautorefname{\MakeLowercase\sectionname}
+\renewcommand\subsectionautorefname{\MakeLowercase\sectionname}
+\renewcommand\subsubsectionautorefname{\MakeLowercase\sectionname}
+\renewcommand\paragraphautorefname{\MakeLowercase\sectionname}
+\renewcommand\subparagraphautorefname{\MakeLowercase\sectionname}
+\renewcommand\pageautorefname{\MakeLowercase\pagename}
+
 
 
 %%%%%%%%
@@ -765,7 +769,7 @@
 
 \newread\gitstream
 \newcommand*\gitdescribe{}
-\openin\gitstream=|"git describe --dirty --tags --always"
+\openin\gitstream=|"git describe --dirty --always"
 \ifeof\gitstream
     \complainmissinggitdesc
 \else
