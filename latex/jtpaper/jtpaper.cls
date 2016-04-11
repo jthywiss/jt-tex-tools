@@ -312,7 +312,7 @@
 %: Date-time format
 %%%%%%%%
 
-\newdateformat{dmmmyyyydate}{\THEDAY~\shortmonthname[\THEMONTH]~\THEYEAR}
+\newdateformat{dmmmyyyydate}{\THEYEAR~\shortmonthname[\THEMONTH]~\THEDAY}
 \dmmmyyyydate
 \settimeformat{xxivtime}
 
