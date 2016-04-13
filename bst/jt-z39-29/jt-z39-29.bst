@@ -657,16 +657,6 @@ FUNCTION {enclose.check}
   if$
 }
 
-% emphasizes top of stack
-% call with
-%    string" emphasize.check
-
-FUNCTION {emphasize.check}
-{ "\Bem{" swap$
-  "}"     swap$
-  enclose.check
-}
-
 % brackets top of stack
 % call with
 %     "string" bracket.check
@@ -811,7 +801,7 @@ FUNCTION {new.sentence.checkb}
 % emphasize(s) ==
 %  BEGIN
 %       if empty$(s) then return ""
-%       else return "{\em " * s * "}"
+%       else return "\textit{ " * s * "}"
 %
 % The format.names function formats the argument (which should be in
 % BibTeX name format) into "First Von Last, Junior", separated by commas
@@ -892,7 +882,14 @@ FUNCTION {field.or.null}
 FUNCTION {emphasize}
 { duplicate$ empty$
     { pop$ "" }
-    { "{\em " swap$ * "}" * }
+    { "\textit{ " swap$ * "}" * }
+  if$
+}
+
+FUNCTION {embolden}
+{ duplicate$ empty$
+    { pop$ "" }
+    { "\textbf{ " swap$ * "}" * }
   if$
 }
 
@@ -1745,6 +1742,7 @@ FUNCTION {format.vol.num}
   duplicate$ empty$ 'skip$
     {
       "volume" bibinfo.check
+      embolden
     }
   if$
   number "number" bibinfo.check duplicate$ empty$ 'skip$
@@ -1768,6 +1766,7 @@ FUNCTION {format.vol.num.pages}
   duplicate$ empty$ 'skip$
     {
       "volume" bibinfo.check
+      embolden
     }
   if$
   number "number" bibinfo.check duplicate$ empty$ 'skip$
