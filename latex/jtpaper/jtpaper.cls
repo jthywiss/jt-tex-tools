@@ -323,12 +323,12 @@
 % UT-standard primary color
 \definecolor{burnt-orange}{rgb}{0.75,0.34,0.00} % Strong orange
 % UT-standard secondary colors
-\definecolor{dark-gray-blue}{rgb}{0.20,0.25,0.28} % Dark grayish cornflower blue / Very dark grayish blue
+\definecolor{navy-blue-gray}{rgb}{0.20,0.25,0.28} % Dark grayish cornflower blue / Very dark grayish blue
 \definecolor{dark-blue}{rgb}{0.00,0.37,0.53} % Strong cerulean / Dark blue
 \definecolor{dark-gray-green}{rgb}{0.26,0.41,0.36} % Dark grayish aquamarine / Very dark desaturated cyan - lime green
 \definecolor{vivid-amber}{rgb}{0.95,0.66,0.00} % Vivid amber / Pure orange
-\definecolor{dark-red-gray}{rgb}{0.22,0.18,0.17} % Dark scarletish gray / Very dark grayish red
-\definecolor{amberish-gray}{rgb}{0.84,0.82,0.77} % Light amberish gray / Grayish yellow
+\definecolor{coffee-brown}{rgb}{0.22,0.18,0.17} % Dark scarletish gray / Very dark grayish red
+\definecolor{sand-gray}{rgb}{0.84,0.82,0.77} % Light amberish gray / Grayish yellow
 
 %%%%%%%%
 %: Title
@@ -337,8 +337,8 @@
 % Notes for future use.  Here's what really belongs on a title page front and back:
 
 % Title page front/recto elements:
-%- Report number
-%- ISSN (top right) [ISBN, too?]
+%- Report number, ISSN, and ISBN (top right)
+%- Possibly: Report number vertically, rotated both +90 deg and -90 deg from horizontal, tops separated by a line, in the extreme top left of the page.
 %- Report title and subtitle, if used (should be the same on the cover, title page, and report documentation page)
 %- Volume number (arabic numerals), and volume title
 %- Title and numbering of series, if the report is issued in a series
@@ -347,10 +347,11 @@
 %- Type of report and period covered, where applicable (conditional)
 %- Contract or grant number, where applicable (may defer to the copyright page)
 %- Sponsoring or issuing organization (if different than the performing organization)
-%- Publication data, including place of publication, publisher (which may or may not be the same as the sponsoring organization), and date (may also defer to the copyright page)
+%- Publication data, including place of publication and publisher (which may or may not be the same as the sponsoring organization) (may also defer to the copyright page)
+%- Date of publication
 %- Publisher's logo
 %- Technical requirements (for example, video, audio, digital)
-%- Distribution limitations: preliminary, draft, working paper, preprint, security classification, restricted distribution, proprietary information
+%- Distribution limitations: preliminary, draft, working paper, preprint, security classification, restricted distribution, proprietary information (bottom AND top of page, if present)
 
 % Title page back/verso elements:
 %- Author biographical note (previous pubs and affiliation) (top of page)
