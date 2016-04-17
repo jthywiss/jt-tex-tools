@@ -182,8 +182,8 @@
     ]{geometry}
 \fi
 \RequirePackage[defaultsans,scale=0.95]{opensans}
-\RequirePackage{mathpazo}
-\RequirePackage{amssymb,amsmath}
+\RequirePackage[charter,greekuppercase=italicized]{mathdesign}
+\RequirePackage{amsmath}
 \RequirePackage{amsthm}
 \RequirePackage{stmaryrd}  % More math symbols
 \RequirePackage{color}
