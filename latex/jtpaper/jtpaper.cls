@@ -194,6 +194,14 @@
 \RequirePackage{lastpage}
 
 %%%%%%%%
+%: Date-time format
+%%%%%%%%
+
+\newdateformat{dmmmyyyydate}{\THEYEAR~\shortmonthname[\THEMONTH]~\THEDAY}
+\dmmmyyyydate
+\settimeformat{xxivtime}
+
+%%%%%%%%
 %: Typefaces
 %%%%%%%%
 
@@ -205,6 +213,20 @@
 % URL typeface
 
 \urlstyle{sf}
+
+%%%%%%%%
+%: Colors
+%%%%%%%%
+
+% UT-standard primary color
+\definecolor{burnt-orange}{rgb}{0.75,0.34,0.00} % Strong orange
+% UT-standard secondary colors
+\definecolor{navy-blue-gray}{rgb}{0.20,0.25,0.28} % Dark grayish cornflower blue / Very dark grayish blue
+\definecolor{dark-blue}{rgb}{0.00,0.37,0.53} % Strong cerulean / Dark blue
+\definecolor{dark-gray-green}{rgb}{0.26,0.41,0.36} % Dark grayish aquamarine / Very dark desaturated cyan - lime green
+\definecolor{vivid-amber}{rgb}{0.95,0.66,0.00} % Vivid amber / Pure orange
+\definecolor{coffee-brown}{rgb}{0.22,0.18,0.17} % Dark scarletish gray / Very dark grayish red
+\definecolor{sand-gray}{rgb}{0.84,0.82,0.77} % Light amberish gray / Grayish yellow
 
 %%%%%%%%
 %: Page dimensions
@@ -235,6 +257,90 @@
 
 \setlength\columnsep{24pt}
 \setlength\columnseprule{0pt}
+
+%%%%%%%%
+%: Page headers/footers
+%%%%%%%%
+
+% Latex base page styles:
+% - empty: headers & footers empty
+% - plain: page number only
+% - headings: header section/subsection & page #, footer empty
+% - myheadings: header user specified "mark" & page #, footer empty
+% - firstpage (letter only) header empty, footer address & phone
+% - (slide page styles...)
+% - titlepage (ltxdoc & ltnews only) page with \maketitle
+
+
+\def\JPfoot@page{\pagename~\number\thepage\pageofcountseperator\pageref*{LastPage}}
+\def\JPfoot@restrict{\normalfont\textsc{\sffamily\small\textbf{\color{red}}}}
+\def\JPfoot@date{\ifnum\number\overfullrule>0 \normalfont\sffamily\small\colorbox{dark-blue}{\color{white}DRAFT \gitdescribe built \today~\currenttime}\else\today\fi}
+
+%TODO: Compute head/footruleraise based on the actual height of the headers/footers
+\newlength{\hfrulewidth}%
+\setlength{\hfrulewidth}{0.25pt}%
+\newlength{\headruleraise}%
+\setlength{\headruleraise}{-0.3\baselineskip}%
+\def\headrule{\color{dark-blue}\rule[\headruleraise]\textwidth\hfrulewidth}
+\newlength{\footruleraise}%
+\setlength{\footruleraise}{0.65\baselineskip}%
+\def\footrule{\color{dark-blue}\rule[\footruleraise]\textwidth\hfrulewidth}
+
+\def \ps@plain {%
+  \let \@mkboth = \@gobbletwo
+  \let \@oddhead = \@empty
+  \def\@oddfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@date}\hfil{\JPfoot@restrict}\hfil{\JPfoot@page}}%
+  \let \@evenhead = \@empty
+  \def\@evenfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@page}\hfil{\JPfoot@restrict}\hfil{\JPfoot@date}}%
+}
+
+%TODO: Running heads on even pages should be the **first** "leftmark" on that page, and on odd pages should be the **last** "rightmark" on that page.
+\if@twoside
+  \def\ps@headings{%
+    \def\@oddhead{\sffamily\rlap{\headrule}\hfil\hfil{\rightmark}}%
+    \def\@oddfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@date}\hfil{\JPfoot@restrict}\hfil{\JPfoot@page}}%
+    \def\@evenhead{\sffamily\rlap{\headrule}{\leftmark}\hfil\hfil}%
+    \def\@evenfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@page}\hfil{\JPfoot@restrict}\hfil{\JPfoot@date}}%
+    \let\@mkboth\markboth
+    \def\sectionmark##1{%
+      \markboth {{%
+        \ifnum \c@secnumdepth >\z@
+          \thesection\quad
+        \fi
+        ##1}}{{%
+        \ifnum \c@secnumdepth >\z@
+          \thesection\quad
+        \fi
+        ##1}}}%
+    \def\subsectionmark##1{%
+      \markright {%
+        \ifnum \c@secnumdepth >\@ne
+          \thesubsection\quad
+        \fi
+        ##1}}}
+\else
+  \def\ps@headings{%
+    \def\@oddhead{\sffamily\rlap{\headrule}\hfil\hfil{\rightmark}}%
+    \def\@oddfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@date}\hfil{\JPfoot@restrict}\hfil{\JPfoot@page}}%
+    \let\@mkboth\markboth
+    \def\sectionmark##1{%
+      \markright {{%
+        \ifnum \c@secnumdepth >\m@ne
+          \thesection\quad
+        \fi
+        ##1}}}}
+\fi
+\def\ps@myheadings{%
+    \def\@oddhead{\sffamily\rlap{\headrule}\hfil\hfil{\rightmark}}%
+    \def\@oddfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@date}\hfil{\JPfoot@restrict}\hfil{\JPfoot@page}}%
+    \def\@evenhead{\sffamily\rlap{\headrule}{\leftmark}\hfil\hfil}%
+    \def\@evenfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@page}\hfil{\JPfoot@restrict}\hfil{\JPfoot@date}}%
+    \let\@mkboth\@gobbletwo
+    \let\sectionmark\@gobble
+    \let\subsectionmark\@gobble
+}
+
+\pagestyle{headings}
 
 %%%%%%%%
 %: Section headers
@@ -305,30 +411,6 @@
 \renewcommand\paragraphautorefname{\MakeLowercase\sectionname}
 \renewcommand\subparagraphautorefname{\MakeLowercase\sectionname}
 \renewcommand\pageautorefname{\MakeLowercase\pagename}
-
-
-
-%%%%%%%%
-%: Date-time format
-%%%%%%%%
-
-\newdateformat{dmmmyyyydate}{\THEYEAR~\shortmonthname[\THEMONTH]~\THEDAY}
-\dmmmyyyydate
-\settimeformat{xxivtime}
-
-%%%%%%%%
-%: Colors
-%%%%%%%%
-
-% UT-standard primary color
-\definecolor{burnt-orange}{rgb}{0.75,0.34,0.00} % Strong orange
-% UT-standard secondary colors
-\definecolor{navy-blue-gray}{rgb}{0.20,0.25,0.28} % Dark grayish cornflower blue / Very dark grayish blue
-\definecolor{dark-blue}{rgb}{0.00,0.37,0.53} % Strong cerulean / Dark blue
-\definecolor{dark-gray-green}{rgb}{0.26,0.41,0.36} % Dark grayish aquamarine / Very dark desaturated cyan - lime green
-\definecolor{vivid-amber}{rgb}{0.95,0.66,0.00} % Vivid amber / Pure orange
-\definecolor{coffee-brown}{rgb}{0.22,0.18,0.17} % Dark scarletish gray / Very dark grayish red
-\definecolor{sand-gray}{rgb}{0.84,0.82,0.77} % Light amberish gray / Grayish yellow
 
 %%%%%%%%
 %: Title
@@ -753,7 +835,6 @@
   \popQED\endtrivlist\@endpefalse
 }
 
-
 %%%%%%%%
 %: git describe
 %%%%%%%%
@@ -776,91 +857,6 @@
 \else
     \read\gitstream to \gitdescribe
 \fi
-
-%%%%%%%%
-%: Page headers/footers
-%%%%%%%%
-
-% Latex base page styles:
-% - empty: headers & footers empty
-% - plain: page number only
-% - headings: header section/subsection & page #, footer empty
-% - myheadings: header user specified "mark" & page #, footer empty
-% - firstpage (letter only) header empty, footer address & phone
-% - (slide page styles...)
-% - titlepage (ltxdoc & ltnews only) page with \maketitle
-
-
-\def\JPfoot@page{\pagename~\number\thepage\pageofcountseperator\pageref*{LastPage}}
-\def\JPfoot@restrict{\normalfont\textsc{\sffamily\small\textbf{\color{red}}}}
-\def\JPfoot@date{\ifnum\number\overfullrule>0 \normalfont\sffamily\small\colorbox{dark-blue}{\color{white}DRAFT \gitdescribe built \today~\currenttime}\else\today\fi}
-
-%TODO: Compute head/footruleraise based on the actual height of the headers/footers
-\newlength{\hfrulewidth}%
-\setlength{\hfrulewidth}{0.25pt}%
-\newlength{\headruleraise}%
-\setlength{\headruleraise}{-0.3\baselineskip}%
-\def\headrule{\color{dark-blue}\rule[\headruleraise]\textwidth\hfrulewidth}
-\newlength{\footruleraise}%
-\setlength{\footruleraise}{0.65\baselineskip}%
-\def\footrule{\color{dark-blue}\rule[\footruleraise]\textwidth\hfrulewidth}
-
-\def \ps@plain {%
-  \let \@mkboth = \@gobbletwo
-  \let \@oddhead = \@empty
-  \def\@oddfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@date}\hfil{\JPfoot@restrict}\hfil{\JPfoot@page}}%
-  \let \@evenhead = \@empty
-  \def\@evenfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@page}\hfil{\JPfoot@restrict}\hfil{\JPfoot@date}}%
-}
-
-%TODO: Running heads on even pages should be the **first** "leftmark" on that page, and on odd pages should be the **last** "rightmark" on that page.
-\if@twoside
-  \def\ps@headings{%
-    \def\@oddhead{\sffamily\rlap{\headrule}\hfil\hfil{\rightmark}}%
-    \def\@oddfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@date}\hfil{\JPfoot@restrict}\hfil{\JPfoot@page}}%
-    \def\@evenhead{\sffamily\rlap{\headrule}{\leftmark}\hfil\hfil}%
-    \def\@evenfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@page}\hfil{\JPfoot@restrict}\hfil{\JPfoot@date}}%
-    \let\@mkboth\markboth
-    \def\sectionmark##1{%
-      \markboth {{%
-        \ifnum \c@secnumdepth >\z@
-          \thesection\quad
-        \fi
-        ##1}}{{%
-        \ifnum \c@secnumdepth >\z@
-          \thesection\quad
-        \fi
-        ##1}}}%
-    \def\subsectionmark##1{%
-      \markright {%
-        \ifnum \c@secnumdepth >\@ne
-          \thesubsection\quad
-        \fi
-        ##1}}}
-\else
-  \def\ps@headings{%
-    \def\@oddhead{\sffamily\rlap{\headrule}\hfil\hfil{\rightmark}}%
-    \def\@oddfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@date}\hfil{\JPfoot@restrict}\hfil{\JPfoot@page}}%
-    \let\@mkboth\markboth
-    \def\sectionmark##1{%
-      \markright {{%
-        \ifnum \c@secnumdepth >\m@ne
-          \thesection\quad
-        \fi
-        ##1}}}}
-\fi
-\def\ps@myheadings{%
-    \def\@oddhead{\sffamily\rlap{\headrule}\hfil\hfil{\rightmark}}%
-    \def\@oddfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@date}\hfil{\JPfoot@restrict}\hfil{\JPfoot@page}}%
-    \def\@evenhead{\sffamily\rlap{\headrule}{\leftmark}\hfil\hfil}%
-    \def\@evenfoot{\sffamily\scriptsize\rlap{\footrule}{\JPfoot@page}\hfil{\JPfoot@restrict}\hfil{\JPfoot@date}}%
-    \let\@mkboth\@gobbletwo
-    \let\sectionmark\@gobble
-    \let\subsectionmark\@gobble
-}
-
-\pagestyle{headings}
-
 
 %TODO: Consider the following for configuration:
 %- \part
