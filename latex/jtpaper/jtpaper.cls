@@ -65,7 +65,7 @@
 %%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{jtpaper}[2016/03/29 v1.0 Paper on mathematical topics (JT)]
+\ProvidesClass{jtpaper}[2016/04/22 v1.0 Paper on mathematical topics (JT)]
 
 %%%%%%%%
 %: Options
