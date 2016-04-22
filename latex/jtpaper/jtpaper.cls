@@ -653,9 +653,11 @@
 %: Bibliography
 %%%%%%%%
 
+\def\bibsection{\section*{\refname}%
+  \@mkboth{\refname}{\refname}}
+\let\bib@heading\bibsection
 \renewenvironment{thebibliography}[1]
-  {\section*{\refname}%
-    \@mkboth{\refname}{\refname}%
+  {\bibsection%
     \list{\@biblabel{\@arabic\c@enumiv}}%
            {\settowidth\labelwidth{\@biblabel{#1}}%
             \leftmargin\labelwidth
