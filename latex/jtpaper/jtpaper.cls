@@ -305,17 +305,17 @@
     \def\sectionmark##1{%
       \markboth {{%
         \ifnum \c@secnumdepth >\z@
-          \thesection\quad
+          \thesection.
         \fi
         ##1}}{{%
         \ifnum \c@secnumdepth >\z@
-          \thesection\quad
+          \thesection.
         \fi
         ##1}}}%
     \def\subsectionmark##1{%
       \markright {%
         \ifnum \c@secnumdepth >\@ne
-          \thesubsection\quad
+          \thesubsection.
         \fi
         ##1}}}
 \else
@@ -326,7 +326,7 @@
     \def\sectionmark##1{%
       \markright {{%
         \ifnum \c@secnumdepth >\m@ne
-          \thesection\quad
+          \thesection.
         \fi
         ##1}}}}
 \fi
