@@ -65,7 +65,7 @@
 %%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{jtpaper}[2016/04/26 v1.0 Paper on mathematical topics (JT)]
+\ProvidesClass{jtpaper}[2016/04/22 v1.0 Paper on mathematical topics (JT)]
 
 %%%%%%%%
 %: Options
@@ -184,7 +184,6 @@
 \RequirePackage[defaultsans,scale=0.95]{opensans}
 \RequirePackage[charter,greekuppercase=italicized]{mathdesign}
 \RequirePackage{amsmath}
-\RequirePackage{amssymb}
 \RequirePackage{amsthm}
 \RequirePackage{stmaryrd}  % More math symbols
 \RequirePackage{color}
