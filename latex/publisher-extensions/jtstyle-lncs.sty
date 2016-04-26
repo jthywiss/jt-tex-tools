@@ -8,19 +8,48 @@
 % Copyright (c) 2016 John A. Thywissen. All rights reserved.
 %
 
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{jtstyle-lncs}[2016/01/27 v1.1 J^T LaTeX set up for use with LNCS papers  (JT)]
 
-% Consider \RequirePackage{XXXXXX}
-\usepackage{amssymb,amsmath}
-\usepackage{stmaryrd}  % More math symbols
-\usepackage{enumerate}
-\usepackage[ligature,inference,shorthand]{semantic}
-\usepackage[final, colorlinks=true, pdfstartview=FitV, linkcolor=blue,
+%%%%%%%%
+%: License Notice
+%%%%%%%%
+
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is John A. Thywissen.
+%
+% This work consists of this file.
+
+
+%%%%%%%%
+%: Package Declaration
+%%%%%%%%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{jtstyle-lncs}[2016/04/26 v1.2 J^T LaTeX set up for use with LNCS papers  (JT)]
+
+
+%%%%%%%%
+%: Required Packages
+%%%%%%%%
+
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{stmaryrd}  % More math symbols
+\RequirePackage{enumerate}
+\RequirePackage[ligature,inference,shorthand]{semantic}
+\RequirePackage[final, colorlinks=true, pdfstartview=FitV, linkcolor=blue,
   citecolor=blue, urlcolor=blue]{hyperref}
-\usepackage{datetime}
-\usepackage{color}
-\usepackage{ifdraft}
+\RequirePackage{datetime}
+\RequirePackage{color}
+\RequirePackage{ifdraft}
 
 
 \ifdraft{
@@ -49,8 +78,9 @@
     \read\gitstream to \gitdescribe
 \fi
 
+
 %%%%%%%%
-%: LNCS trimmed page size
+%: LNCS Trimmed Page Size
 %%%%%%%%
 
 \setlength{\paperwidth}{431pt}
@@ -68,10 +98,8 @@
 
 
 %%%%%%%%
-%: Page styles -- add "DRAFT git-desc date time" footer
+%: Page Styles -- add "DRAFT git-desc date time" footer
 %%%%%%%%
-
-\makeatletter
 
 \ifdraft{
 
@@ -117,11 +145,9 @@
 
 \ps@headings
 
-\makeatother
-
 
 %%%%%%%%
-%: Misc other formatting configuration
+%: Misc. Other Formatting Configuration
 %%%%%%%%
 
 \urlstyle{sf}
@@ -133,8 +159,9 @@
 \definecolor{burnt-orange}{cmyk}{0.00,0.65,1.00,0.09}
 \definecolor{darkened-orange}{cmyk}{0.1,0.85,1.00,0.29}
 
+
 %%%%%%%%
-%: autoref set up
+%: autoref Set Up
 %%%%%%%%
 
 \def\equationautorefname{Equation}
@@ -202,7 +229,7 @@
 
 
 %%%%%%%%
-%: Misc commands
+%: Misc. Commands
 %%%%%%%%
 
 \newcommand\TODO[1]{{\small\color{burnt-orange}\textsf{TODO:} #1}}
@@ -217,7 +244,6 @@
 %        <https://tex.stackexchange.com/questions/34155#40413>, 2012 Jan 08
 %   and an extract from the catoptions package, version 0.2.7h, 2014 Aug 29
 
-\makeatletter
 \newcommand\cptswap[2]{#2#1}
 \newcommand\ifnullTF[1]{%
   \ifcat$\detokenize{#1}$\expandafter\@firstoftwo
@@ -274,7 +300,6 @@
     \autoref{#3}%
   }%
 }
-\makeatother
 % ----------------------------------------------------------------------
 
 
