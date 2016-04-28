@@ -5,7 +5,7 @@
 %
 % Created by jthywiss on 2015/11/24.
 %
-% Copyright (c) 2016 John A. Thywissen. All rights reserved.
+% Copyright (c) 2016 John A. Thywissen. Licensed under the LaTeX Project Public License.
 %
 
 
@@ -106,14 +106,14 @@
 \def\ps@empty{%
   \let\@mkboth\@gobbletwo
   \let\@oddhead\@empty
-  \def\@oddfoot{\normalfont\small\color{darkened-orange} DRAFT \gitdescribe built \today~\currenttime\hfil}
+  \def\@oddfoot{\normalfont\small\color{draft-color} DRAFT \gitdescribe built \today~\currenttime\hfil}
   \let\@evenhead\@empty
   \let\@evenfoot\@oddfoot}
 
 \def\ps@plain{%
   \let\@mkboth\@gobbletwo
   \def\@oddhead{\normalfont\small\hfil\thepage}
-  \def\@oddfoot{\normalfont\small\color{darkened-orange} DRAFT \gitdescribe built \today~\currenttime\hfil}
+  \def\@oddfoot{\normalfont\small\color{draft-color} DRAFT \gitdescribe built \today~\currenttime\hfil}
   \let\@evenhead\@empty
   \let\@evenfoot\@oddfoot}
 
@@ -123,7 +123,7 @@
                  \llap{\thepage}}
   \def\@evenhead{\normalfont\small\rlap{\thepage}\hspace{\headlineindent}%
                   \leftmark\hfil}
-  \def \@oddfoot {\normalfont\small\color{darkened-orange} DRAFT \gitdescribe built \today~\currenttime\hfil}%
+  \def \@oddfoot {\normalfont\small\color{draft-color} DRAFT \gitdescribe built \today~\currenttime\hfil}%
   \let\@evenfoot\@oddfoot
   \def\chaptermark##1{}%
   \def\sectionmark##1{}%
@@ -133,7 +133,7 @@
   \let\@mkboth\@gobbletwo
   \def\@oddhead{\normalfont\small\hfil\hspace{\headlineindent}%
                  \llap{\thepage}}
-  \def \@oddfoot {\normalfont\small\color{darkened-orange} DRAFT \gitdescribe built \today~\currenttime\hfil}%
+  \def \@oddfoot {\normalfont\small\color{draft-color} DRAFT \gitdescribe built \today~\currenttime\hfil}%
   \def\@evenhead{\normalfont\small\rlap{\thepage}\hspace{\headlineindent}%
                   \hfil}
   \let\@evenfoot\@oddfoot
@@ -156,8 +156,8 @@
 \dmmmyyyydate
 \settimeformat{xxivtime}
 
-\definecolor{burnt-orange}{cmyk}{0.00,0.65,1.00,0.09}
-\definecolor{darkened-orange}{cmyk}{0.1,0.85,1.00,0.29}
+\definecolor{burnt-orange}{rgb}{0.75,0.34,0.00}
+\definecolor{draft-color}{rgb}{0.780,0.752,0.008}
 
 
 %%%%%%%%
