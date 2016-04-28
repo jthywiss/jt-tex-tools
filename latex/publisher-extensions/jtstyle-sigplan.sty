@@ -33,7 +33,7 @@
 %%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{jtstyle-sigplan}[2016/06/26 v1.0 J^T LaTeX set up for use with SIGPLAN papers  (JT)]
+\ProvidesPackage{jtstyle-sigplan}[2016/06/28 v1.0 J^T LaTeX set up for use with SIGPLAN papers  (JT)]
 
 
 %%%%%%%%
@@ -86,7 +86,7 @@
 %%%%%%%%
 
 \ifdraft{
-  \def \@formatyear {\normalfont\small\color{draft-color} DRAFT \gitdescribe built \today~\currenttime}
+  \def \@formatyear {\normalfont\small\colorbox{draft-color}{\color{white} DRAFT \gitdescribe built \today~\currenttime}}
 }{
   \def \@formatyear {\today}
 }

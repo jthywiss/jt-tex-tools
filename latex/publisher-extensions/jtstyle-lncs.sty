@@ -33,7 +33,7 @@
 %%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{jtstyle-lncs}[2016/04/26 v1.2 J^T LaTeX set up for use with LNCS papers  (JT)]
+\ProvidesPackage{jtstyle-lncs}[2016/04/28 v1.2 J^T LaTeX set up for use with LNCS papers  (JT)]
 
 
 %%%%%%%%
@@ -103,17 +103,20 @@
 
 \ifdraft{
 
+\def\draft@banner{\normalfont\sffamily\small\colorbox{draft-color}{\color{white}DRAFT \gitdescribe built \today~\currenttime}}
+
+
 \def\ps@empty{%
   \let\@mkboth\@gobbletwo
   \let\@oddhead\@empty
-  \def\@oddfoot{\normalfont\small\color{draft-color} DRAFT \gitdescribe built \today~\currenttime\hfil}
+  \def\@oddfoot{\normalfont\small\draft@banner\hfil}
   \let\@evenhead\@empty
   \let\@evenfoot\@oddfoot}
 
 \def\ps@plain{%
   \let\@mkboth\@gobbletwo
   \def\@oddhead{\normalfont\small\hfil\thepage}
-  \def\@oddfoot{\normalfont\small\color{draft-color} DRAFT \gitdescribe built \today~\currenttime\hfil}
+  \def\@oddfoot{\normalfont\small\draft@banner\hfil}
   \let\@evenhead\@empty
   \let\@evenfoot\@oddfoot}
 
@@ -123,7 +126,7 @@
                  \llap{\thepage}}
   \def\@evenhead{\normalfont\small\rlap{\thepage}\hspace{\headlineindent}%
                   \leftmark\hfil}
-  \def \@oddfoot {\normalfont\small\color{draft-color} DRAFT \gitdescribe built \today~\currenttime\hfil}%
+  \def \@oddfoot {\normalfont\small\draft@banner\hfil}%
   \let\@evenfoot\@oddfoot
   \def\chaptermark##1{}%
   \def\sectionmark##1{}%
@@ -133,7 +136,7 @@
   \let\@mkboth\@gobbletwo
   \def\@oddhead{\normalfont\small\hfil\hspace{\headlineindent}%
                  \llap{\thepage}}
-  \def \@oddfoot {\normalfont\small\color{draft-color} DRAFT \gitdescribe built \today~\currenttime\hfil}%
+  \def \@oddfoot {\normalfont\small\draft@banner\hfil}%
   \def\@evenhead{\normalfont\small\rlap{\thepage}\hspace{\headlineindent}%
                   \hfil}
   \let\@evenfoot\@oddfoot
