@@ -8,8 +8,9 @@ LaTeX and BibTeX classes, packages, styles, etc. I have developed
 
 ## LaTeX Packages
 
-*    utcs-title.sty -- LaTeX package to add a UTCS tech. report title page
 *    jtstyle-lncs.sty -- My LaTeX set up for use with LNCS papers
+*    jtstyle-sigplan.sty -- My LaTeX set up for use with SIGPLAN papers
+*    utcs-title.sty -- LaTeX package to add a UTCS tech. report title page
 
 
 ## BibTeX Bibliography Styles
