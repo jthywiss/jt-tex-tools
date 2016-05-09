@@ -352,7 +352,7 @@ FUNCTION {init.urlbst.variables}
   % The following constants may be adjusted by hand, if desired
 
   % The first set allow you to enable or disable certain functionality.
-  #0 'addeprints :=         % 0=no eprints; 1=include eprints
+  #1 'addeprints :=         % 0=no eprints; 1=include eprints
   #1 'adddoiresolver :=     % 0=no DOI resolver; 1=include it
   #0 'addpubmedresolver :=     % 0=no PUBMED resolver; 1=include it
   #2 'hrefform :=           % 0=no links; 1=hypertex links; 2=hyperref links
@@ -388,7 +388,7 @@ FUNCTION {init.state.consts}
 % URL prefixes
 
 FUNCTION {bbl.eprinturl}
-{ "http://arxiv.org/abs/" }  % prefix to make URL from eprint ref
+{ "https://arxiv.org/abs/" }  % prefix to make URL from eprint ref
 
 FUNCTION {bbl.doiurl}
 { "https://doi.org/" }  % prefix to make URL from DOI
