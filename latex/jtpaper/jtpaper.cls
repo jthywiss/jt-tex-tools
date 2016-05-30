@@ -622,7 +622,8 @@
 
 \renewcommand\tableofcontents{%
   \section*{\contentsname
-    \@mkboth{\contentsname}{\contentsname}}%
+    \@mkboth{\contentsname}{\contentsname}%
+  }%
   \@starttoc{toc}%
 }
 % Style note: Table of Contents required if report > 20 pages.
@@ -634,6 +635,7 @@
 \renewcommand\listoffigures{%
   \section*{\listfigurename}%
   \@mkboth{\listfigurename}{\listfigurename}%
+  %\addcontentsline{toc}{section}{\listfigurename}%
   \@starttoc{lof}%
 }
 % Style note: List of Figures & List of Tables required if fig+tables > 5
@@ -645,6 +647,7 @@
 \renewcommand\listoftables{%
   \section*{\listtablename}%
   \@mkboth{\listtablename}{\listtablename}%
+  %\addcontentsline{toc}{section}{\listtablename}%
   \@starttoc{lot}%
 }
 % Style note: List of Figures & List of Tables required if fig+tables > 5
@@ -654,7 +657,9 @@
 %%%%%%%%
 
 \def\bibsection{\section*{\refname}%
-  \@mkboth{\refname}{\refname}}
+  \@mkboth{\refname}{\refname}%
+  \addcontentsline{toc}{section}{\refname}%
+}
 \let\bib@heading\bibsection
 \renewenvironment{thebibliography}[1]
   {\bibsection%
@@ -687,6 +692,7 @@
     \fi
     \twocolumn[\section*{\indexname}]%
     \@mkboth{\indexname}{\indexname}%
+    \addcontentsline{toc}{section}{\indexname}%
     \thispagestyle{plain}\parindent\z@
     \parskip\z@ \@plus .3\p@\relax
     \columnseprule \z@
