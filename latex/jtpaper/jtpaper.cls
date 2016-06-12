@@ -65,7 +65,7 @@
 %%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{jtpaper}[2016/04/22 v1.0 Paper on mathematical topics (JT)]
+\ProvidesClass{jtpaper}[2016/06/12 v1.2 Paper on mathematical topics (JT)]
 
 %%%%%%%%
 %: Options
@@ -411,6 +411,77 @@
 \renewcommand\paragraphautorefname{\MakeLowercase\sectionname}
 \renewcommand\subparagraphautorefname{\MakeLowercase\sectionname}
 \renewcommand\pageautorefname{\MakeLowercase\pagename}
+
+% --------
+% "\Autoref" for \autoref at the start of a sentence.
+%
+% Code by:
+%   Ahmed Musa (University of Central Lancashire, Preston, United Kingdom)
+%   From a TeX - LaTeX Stack Exchange answer
+%        <https://tex.stackexchange.com/questions/34155#40413>, 2012 Jan 08
+%   and an extract from the catoptions package, version 0.2.7h, 2014 Aug 29
+
+\newcommand\cptswap[2]{#2#1}
+\newcommand\ifnullTF[1]{%
+  \ifcat$\detokenize{#1}$\expandafter\@firstoftwo
+    \else\expandafter\@secondoftwo\fi
+}
+\newcommand\ifblankTF[1]{%
+  \expandafter\ifnullTF\expandafter{\@gobble#1.}%
+}
+\long\def\aftercsname#1#2{%
+  \expandafter\cptswap\expandafter{\csname#2\endcsname}{#1}%
+}
+\long\def\usename#1{\csname#1\endcsname}
+\def\ifcsndefTF#1{%
+  \ifblankTF{#1}{%
+    \expandafter\@secondoftwo\@gobble
+  }{%
+    \ifcsname#1\endcsname
+      \expandafter\@firstofone
+    \else
+      \expandafter\expandafter\expandafter\@secondoftwo\expandafter\@gobble
+    \fi
+  }{%
+    \aftercsname\ifdefTF{#1}%
+  }%
+}
+\def\ifdefTF#1{%
+  \ifblankTF{#1}\@secondoftwo{%
+    \usename{@\ifx#1\cpt@undefined second\else
+    \ifx#1\relax second\else first\fi\fi oftwo}%
+  }%
+}
+\def\Autoref#1{%
+  \begingroup
+  \edef\reserved@a{#1}%
+  \ifcsndefTF{r@#1}{%
+    \expandafter\expandafter\expandafter
+    \cptswap\expandafter\expandafter
+    \expandafter{\csname r@\reserved@a\endcsname}{\expandafter\testreftype\@fourthoffive}%
+      .\\{#1}%
+  }{%
+    \ref{#1}%
+  }%
+  \endgroup
+}
+\def\testreftype#1.#2\\#3{%
+  \ifcsndefTF{#1autorefname}{%
+    \def\reserved@a##1##2\@nil{%
+      \uppercase{\def\ref@name{##1}}%
+      \aftercsname\edef{#1autorefname}{\ref@name##2}%
+      \autoref{#3}%
+    }%
+    \reserved@a#1\@nil
+  }{%
+    \autoref{#3}%
+  }%
+}
+
+% End "\Autoref"
+% --------
+
+
 
 %%%%%%%%
 %: Title
