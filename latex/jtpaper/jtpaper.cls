@@ -65,7 +65,7 @@
 %%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{jtpaper}[2016/06/12 v1.2 Paper on mathematical topics (JT)]
+\ProvidesClass{jtpaper}[2016/06/15 v1.2 Paper on mathematical topics (JT)]
 
 %%%%%%%%
 %: Options
@@ -197,8 +197,8 @@
 %: Date-time format
 %%%%%%%%
 
-\newdateformat{dmmmyyyydate}{\THEYEAR~\shortmonthname[\THEMONTH]~\THEDAY}
-\dmmmyyyydate
+\newdateformat{yyyymmmddate}{\THEYEAR~\shortmonthname[\THEMONTH]~\THEDAY}
+\yyyymmmddate
 \settimeformat{xxivtime}
 
 %%%%%%%%
@@ -939,7 +939,6 @@
 
 %TODO: Consider the following for configuration:
 %- \part
-%- \section … \subpara
 %- \tableofcontents
 %- \listoffigures
 %- \listoftables
@@ -947,7 +946,6 @@
 %- \subitem \subsubitem
 %- \indexspace
 %- envs: description abstract verse quotation quote titlepage figure figure* table table* thebibliography theindex
-%- counters for part section subsection subsubsection paragraph subparagraph
 %- labels for: enum item
 %- toc style
 %- lof style
