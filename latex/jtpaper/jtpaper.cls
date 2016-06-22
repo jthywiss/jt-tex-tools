@@ -65,7 +65,7 @@
 %%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{jtpaper}[2016/06/15 v1.2 Paper on mathematical topics (JT)]
+\ProvidesClass{jtpaper}[2016/06/22 v1.3 Paper on mathematical topics (JT)]
 
 %%%%%%%%
 %: Options
@@ -228,6 +228,11 @@
 \definecolor{coffee-brown}{rgb}{0.22,0.18,0.17} % Dark scarletish gray / Very dark grayish red
 \definecolor{sand-gray}{rgb}{0.84,0.82,0.77} % Light amberish gray / Grayish yellow
 
+\providecommand\titlepagerulecolor{dark-blue}
+\providecommand\headfootrulecolor{dark-blue}
+\providecommand\draftcolor{vivid-amber}
+
+
 %%%%%%%%
 %: Page dimensions
 %%%%%%%%
@@ -274,17 +279,17 @@
 
 \def\JPfoot@page{\pagename~\number\thepage\pageofcountseperator\pageref*{LastPage}}
 \def\JPfoot@restrict{\normalfont\textsc{\sffamily\small\textbf{\color{red}}}}
-\def\JPfoot@date{\ifnum\number\overfullrule>0 \normalfont\sffamily\small\colorbox{dark-blue}{\color{white}DRAFT \gitdescribe built \today~\currenttime}\else\today\fi}
+\def\JPfoot@date{\ifnum\number\overfullrule>0 \normalfont\sffamily\small\colorbox{\draftcolor}{\color{white}DRAFT \gitdescribe built \today~\currenttime}\else\today\fi}
 
 %TODO: Compute head/footruleraise based on the actual height of the headers/footers
 \newlength{\hfrulewidth}%
 \setlength{\hfrulewidth}{0.25pt}%
 \newlength{\headruleraise}%
 \setlength{\headruleraise}{-0.3\baselineskip}%
-\def\headrule{\color{dark-blue}\rule[\headruleraise]\textwidth\hfrulewidth}
+\def\headrule{\color{\headfootrulecolor}\rule[\headruleraise]\textwidth\hfrulewidth}
 \newlength{\footruleraise}%
 \setlength{\footruleraise}{0.65\baselineskip}%
-\def\footrule{\color{dark-blue}\rule[\footruleraise]\textwidth\hfrulewidth}
+\def\footrule{\color{\headfootrulecolor}\rule[\footruleraise]\textwidth\hfrulewidth}
 
 \def \ps@plain {%
   \let \@mkboth = \@gobbletwo
@@ -481,11 +486,21 @@
 % End "\Autoref"
 % --------
 
-
-
 %%%%%%%%
 %: Title
 %%%%%%%%
+
+% Redefine titlepage environment to NOT overwrite page counter
+\renewenvironment{titlepage}{%
+  \if@twocolumn
+    \@restonecoltrue\onecolumn
+  \else
+    \@restonecolfalse\newpage
+  \fi
+  \thispagestyle{empty}%
+}{%
+  \if@restonecol\twocolumn \else \newpage \fi
+}
 
 % Notes for future use.  Here's what really belongs on a title page front and back:
 
@@ -536,7 +551,7 @@
     \vfill%
     \parbox{\textwidth}{%
         \centering%
-        \textcolor{burnt-orange}{\rule{\textwidth}{0.25pt}}\par
+        \textcolor{\titlepagerulecolor}{\rule{\textwidth}{0.25pt}}\par
         \vspace*{6pt}
         {\huge\rmfamily\bfseries\upshape \@title \par}
         \vspace{14pt}
@@ -548,7 +563,7 @@
         \vspace{12pt}
         {\large\rmfamily\mdseries\upshape \@date\par}
         \vspace*{6pt}
-        \textcolor{burnt-orange}{\rule{\textwidth}{0.25pt}}\par
+        \textcolor{\titlepagerulecolor}{\rule{\textwidth}{0.25pt}}\par
     }%
     \vfill%
     \vfill%
@@ -624,6 +639,8 @@
 %: Abstract
 %%%%%%%%
 
+\providecommand\copyrightnotice{Copyright \the\year\ by the authors}
+
 \if@titlepage
   \renewenvironment{abstract}{%
     \titlepage
@@ -645,7 +662,7 @@
       \footnotesize\rmfamily\mdseries\upshape \@thanks \par%
     }
     \vfill
-    {\footnotesize\rmfamily\mdseries\upshape Copyright \the\year\ by the authors \par}
+    {\footnotesize\rmfamily\mdseries\upshape \copyrightnotice \par}
     \vfill
 %    \@ifundefined{BibTeX}
 %     {\def\BibTeX{{\rmfamily B\kern-.05em%
