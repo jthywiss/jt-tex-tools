@@ -540,14 +540,23 @@
 %- Word counts: text only (excluding abstract, acknowledgments, figure legends, and references)
 %- Number of: pages, figures, and tables
 
+\providecommand\titlepagehead{\relax}
+
 \if@titlepage
   \renewcommand\maketitle{\begin{titlepage}%
+    \newgeometry{
+      textwidth=515pt,
+      textheight=722pt,
+      heightrounded,
+      centering
+    }
     \setlength{\parindent}{0pt}
     \let\footnotesize\small
     \let\footnoterule\relax
     \let \footnote \thanks
     \null\vfil
     \sffamily
+    \titlepagehead%
     \vfill%
     \parbox{\textwidth}{%
         \centering%
@@ -567,6 +576,7 @@
     }%
     \vfill%
     \vfill%
+    \restoregeometry
     \end{titlepage}%
     \setcounter{footnote}{0}%
 %    \global\let\thanks\relax
