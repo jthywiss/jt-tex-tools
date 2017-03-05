@@ -1,0 +1,313 @@
+%!TEX encoding = UTF-8 Unicode
+
+%
+% jtstyle-acmart.sty -- My LaTeX set up for use with ACM articles/papers
+%
+% Created by jthywiss on 2017/03/05.
+%
+% Copyright (c) 2017 John A. Thywissen. Licensed under the LaTeX Project Public License.
+%
+
+
+%%%%%%%%
+%: License Notice
+%%%%%%%%
+
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is John A. Thywissen.
+%
+% This work consists of this file.
+
+
+%%%%%%%%
+%: Package Declaration
+%%%%%%%%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{jtstyle-acmart}[2017/03/05 v1.0 J^T LaTeX set up for use with ACM articles/papers  (JT)]
+
+
+%%%%%%%%
+%: Options
+%%%%%%%%
+
+\newif\ifJT@draft
+\JT@draftfalse
+\DeclareOption{draft}{
+  \JT@drafttrue
+}
+
+% Option invocation
+\ProcessOptions\relax
+
+
+%%%%%%%%
+%: Required Packages
+%%%%%%%%
+
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{stmaryrd}  % More math symbols
+\RequirePackage{enumerate}
+\RequirePackage[ligature,inference,shorthand]{semantic}
+\RequirePackage{datetime}
+
+
+%%%%%%%%
+%: git describe
+%%%%%%%%
+
+\ifJT@draft
+
+\def\complainmissinggitdesc{\PackageError{jtstyle-lncs}{git describe failed}{%
+  The attempt to run "git describe" failed.\MessageBreak%
+  One probable cause: git is not in the permitted list of shell commands.\MessageBreak%
+  Check that the file\MessageBreak%
+  /usr/local/texlive/texmf-local/web2c/texmf.cnf\MessageBreak%
+  has the following entry:\MessageBreak%
+  shell_escape_commands = \ \MessageBreak%
+  bibtex,bibtex8,extractbb,kpsewhich,makeindex,mpost,repstopdf,git%
+}}
+
+\newread\gitstream
+\newcommand*\gitdescribe{}
+\openin\gitstream=|"git describe --dirty --always"
+\ifeof\gitstream
+    \complainmissinggitdesc
+\else
+    \read\gitstream to \gitdescribe
+\fi
+
+\else
+\fi % end ifJT@draft
+
+
+%%%%%%%%
+%: Add "DRAFT git-desc date time" Footer
+%%%%%%%%
+
+\ifJT@draft
+
+    \setcopyright{rightsretained}
+    \def\@copyrightpermission{Unpublished working draft. Not for distribution.}
+    \fancypagestyle{firstpagestyle}{%
+        \fancyhf{}%
+        \renewcommand{\headrulewidth}{\z@}%
+        \renewcommand{\footrulewidth}{\z@}%
+        \fancyfoot[RE,LO]{\footnotesize {\colorbox{draft-color}{\color{white} DRAFT \gitdescribe built \today~\currenttime}}}%
+        \fancyhead[RO]{\@folioblob}%
+        \fancyhead[LE]{\ACM@linecount\@folioblob}%
+        \fancyhead[LO]{\ACM@linecount}%
+        \fancyheadoffset[RO,LE]{1.4\@folio@wd}%
+    }
+    \fancypagestyle{standardpagestyle}{%
+  \fancyhf{}%
+        \renewcommand{\headrulewidth}{\z@}%
+        \renewcommand{\footrulewidth}{\z@}%
+        \fancyhead[LE]{\ACM@linecount\@headfootfont
+        \@acmArticle\if@ACM@printfolios:\thepage\fi\quad\textbullet\quad\@shortauthors}%
+        \fancyhead[LO]{\ACM@linecount}%
+        \fancyhead[RO]{\@headfootfont
+        \shorttitle\quad\textbullet\quad\@acmArticle\if@ACM@printfolios:\thepage\fi}%
+        \fancyfoot[RO,LE]{\footnotesize {\colorbox{draft-color}{\color{white} DRAFT \gitdescribe built \today~\currenttime}}}%
+    }
+    \pagestyle{standardpagestyle}
+
+\else
+\fi % end ifJT@draft
+
+
+%%%%%%%%
+%: Misc. Other Formatting Configuration
+%%%%%%%%
+
+\urlstyle{sf}
+
+\newdateformat{dmmmyyyydate}{\THEYEAR~\shortmonthname[\THEMONTH]~\THEDAY}
+\dmmmyyyydate
+\settimeformat{xxivtime}
+
+\definecolor[named]{burnt-orange}{rgb}{0.75,0.34,0.00}
+\definecolor[named]{draft-color}{rgb}{0.780,0.752,0.008}
+
+
+%%%%%%%%
+%: autoref Set Up
+%%%%%%%%
+
+\def\equationautorefname{Equation}
+\def\footnoteautorefname{footnote}
+\def\itemautorefname{item}
+\def\figureautorefname{\figurename}
+\def\tableautorefname{Table}
+\def\partautorefname{Part}
+\def\appendixautorefname{Appendix}
+\def\chapterautorefname{Section}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Section}
+\def\subsubsectionautorefname{Section}
+\def\paragraphautorefname{Section}
+\def\subparagraphautorefname{Section}
+\def\theoremautorefname{Theorem}
+\def\pageautorefname{page}
+
+
+%%%%%%%%
+%: Enunciations (Formal Statements)
+%%%%%%%%
+
+% Define remark-style enunciations analogously to ACM's other enunciation styles
+
+\def\@acmremarkbodyfont{\normalfont}
+\def\@acmremarkindent{\parindent}
+\def\@acmremarkheadfont{\itshape}
+\def\@acmremarknotefont{\@empty}
+\ifcase\ACM@format@nr
+\relax % manuscript
+\or % acmsmall
+\or % acmlarge
+\or % acmtog
+\or % sigconf
+\or % siggraph
+\or % sigplan
+  \def\@acmremarkbodyfont{\normalfont}
+  \def\@acmremarkindent{\z@}
+  \def\@acmremarkheadfont{\itshape}
+  \def\@acmremarknotefont{\normalfont}
+\or % sigchi
+\or % sigchi-a
+\fi
+\newtheoremstyle{acmremark}%
+  {.5\baselineskip\@plus.2\baselineskip
+    \@minus.2\baselineskip}% space above
+  {.5\baselineskip\@plus.2\baselineskip
+    \@minus.2\baselineskip}% space below
+  {\@acmremarkbodyfont}% body font
+  {\@acmremarkindent}% indent amount
+  {\@acmremarkheadfont}% head font
+  {.}% punctuation after head
+  {.5em}% spacing after head
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ {\@acmremarknotefont(#3)}}}% head spec
+
+% Possible theorem-like environments:
+%   Algorithm  Corollary  Proposition
+%   Assertion  Criterion  Reduction
+%   Axiom      Hypothesis Sublemma
+%   Conjecture Lemma      Theorem
+
+\theoremstyle{acmplain}
+
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+
+% Possible definition-style theorem-like environments
+%   Condition  Exercise Solution
+%   Definition Problem
+%   Example    Property
+
+\theoremstyle{acmdefinition}
+
+%\newtheorem{xxxxxx}[theorem]{Xxxxxx}
+
+% Possible remark-style theorem-like environments
+%   Answer     Convention  Question
+%   Assumption Discussion  Remark
+%   Case       Fact        Step
+%   Claim      Notation    Subcase
+%   Comment    Note
+%   Conclusion Observation
+
+\theoremstyle{acmremark}
+
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\theoremstyle{acmplain}
+
+
+%%%%%%%%
+%: Misc. Commands
+%%%%%%%%
+
+\newcommand\TODO[1]{{\small\color{burnt-orange}\textsf{TODO:} #1}}
+%\newcommand\TODO[1]{\vspace{4pt}{\small\color{burnt-orange}\textsf{TODO:} #1}\vspace{4pt}}
+
+% ----------------------------------------------------------------------
+% "\Autoref" for \autoref at the start of a sentence.
+%
+% Code by:
+%   Ahmed Musa (University of Central Lancashire, Preston, United Kingdom)
+%   From a TeX - LaTeX Stack Exchange answer
+%        <https://tex.stackexchange.com/questions/34155#40413>, 2012 Jan 08
+%   and an extract from the catoptions package, version 0.2.7h, 2014 Aug 29
+
+\newcommand\cptswap[2]{#2#1}
+\newcommand\ifnullTF[1]{%
+  \ifcat$\detokenize{#1}$\expandafter\@firstoftwo
+    \else\expandafter\@secondoftwo\fi
+}
+\newcommand\ifblankTF[1]{%
+  \expandafter\ifnullTF\expandafter{\@gobble#1.}%
+}
+\long\def\aftercsname#1#2{%
+  \expandafter\cptswap\expandafter{\csname#2\endcsname}{#1}%
+}
+\long\def\usename#1{\csname#1\endcsname}
+\def\ifcsndefTF#1{%
+  \ifblankTF{#1}{%
+    \expandafter\@secondoftwo\@gobble
+  }{%
+    \ifcsname#1\endcsname
+      \expandafter\@firstofone
+    \else
+      \expandafter\expandafter\expandafter\@secondoftwo\expandafter\@gobble
+    \fi
+  }{%
+    \aftercsname\ifdefTF{#1}%
+  }%
+}
+\def\ifdefTF#1{%
+  \ifblankTF{#1}\@secondoftwo{%
+    \usename{@\ifx#1\cpt@undefined second\else
+    \ifx#1\relax second\else first\fi\fi oftwo}%
+  }%
+}
+\def\Autoref#1{%
+  \begingroup
+  \edef\reserved@a{#1}%
+  \ifcsndefTF{r@#1}{%
+    \expandafter\expandafter\expandafter
+    \cptswap\expandafter\expandafter
+    \expandafter{\csname r@\reserved@a\endcsname}{\expandafter\testreftype\@fourthoffive}%
+      .\\{#1}%
+  }{%
+    \ref{#1}%
+  }%
+  \endgroup
+}
+\def\testreftype#1.#2\\#3{%
+  \ifcsndefTF{#1autorefname}{%
+    \def\reserved@a##1##2\@nil{%
+      \uppercase{\def\ref@name{##1}}%
+      \aftercsname\edef{#1autorefname}{\ref@name##2}%
+      \autoref{#3}%
+    }%
+    \reserved@a#1\@nil
+  }{%
+    \autoref{#3}%
+  }%
+}
+% ----------------------------------------------------------------------
+
+
+\endinput
