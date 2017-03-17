@@ -1,0 +1,60 @@
+# .gitattributes -- git attibute to pathname mapping
+
+
+# Do end-of-line character normalization on all text files
+
+*       text=auto encoding=UTF-8
+
+
+# TeX file types
+
+*.tex   text diff=tex
+*.bib   text diff=bibtex
+*.cls   text diff=tex linguist-language=TeX
+*.sty   text diff=tex linguist-language=TeX
+*.bst   text
+
+
+# Graphic file types
+
+*.svg   text
+*.png   binary
+*.gif   binary
+*.pdf   binary
+*.eps   text
+
+
+# Common file types
+
+*.txt   text
+*.zip   binary
+*.gz    binary
+*.xml   text
+*.xsl   text
+*.html  text diff=html linguist-language=HTML
+*.shtml text diff=html linguist-language=HTML
+*.xhtml text diff=html linguist-language=HTML
+*.css   text diff=css
+*.js    text
+
+
+# Source code
+
+*.orc   text linguist-language=Orc
+*.inc   text linguist-language=Orc
+*.java  text diff=java
+*.scala text
+*.jar   binary
+
+
+# iWork/Office/etc. file types
+
+*.numbers binary
+*.pptx  binary
+*.xlsx  binary
+
+
+# Documentation files
+
+*.md   text linguist-documentation
+*.creole  text linguist-documentation

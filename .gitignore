@@ -53,6 +53,9 @@ Thumbs.db
 *.snm
 *.vrb
 
+# comment
+comment.cut
+
 # glossaries
 *.acn
 *.acr
