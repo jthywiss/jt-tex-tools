@@ -97,32 +97,11 @@
 %%%%%%%%
 
 \ifJT@draft
-
-    \setcopyright{rightsretained}
-    \def\@copyrightpermission{Unpublished working draft. Not for distribution.}
-    \fancypagestyle{firstpagestyle}{%
-        \fancyhf{}%
-        \renewcommand{\headrulewidth}{\z@}%
-        \renewcommand{\footrulewidth}{\z@}%
-        \fancyfoot[RE,LO]{\footnotesize {\colorbox{draft-color}{\color{white} DRAFT \gitdescribe built \today~\currenttime}}}%
-        \fancyhead[RO]{\@folioblob}%
-        \fancyhead[LE]{\ACM@linecount\@folioblob}%
-        \fancyhead[LO]{\ACM@linecount}%
-        \fancyheadoffset[RO,LE]{1.4\@folio@wd}%
+    \@ACM@timestamptrue
+    \providecommand\ACM@timestamp{}
+    \renewcommand\ACM@timestamp{%
+      \footnotesize\colorbox{draft-color}{\color{white} DRAFT \gitdescribe built \today~\currenttime}%
     }
-    \fancypagestyle{standardpagestyle}{%
-  \fancyhf{}%
-        \renewcommand{\headrulewidth}{\z@}%
-        \renewcommand{\footrulewidth}{\z@}%
-        \fancyhead[LE]{\ACM@linecount\@headfootfont
-        \@acmArticle\if@ACM@printfolios:\thepage\fi\quad\textbullet\quad\@shortauthors}%
-        \fancyhead[LO]{\ACM@linecount}%
-        \fancyhead[RO]{\@headfootfont
-        \shorttitle\quad\textbullet\quad\@acmArticle\if@ACM@printfolios:\thepage\fi}%
-        \fancyfoot[RO,LE]{\footnotesize {\colorbox{draft-color}{\color{white} DRAFT \gitdescribe built \today~\currenttime}}}%
-    }
-    \pagestyle{standardpagestyle}
-
 \else
 \fi % end ifJT@draft
 
