@@ -186,10 +186,15 @@
 
 \theoremstyle{acmplain}
 
+% Ensure we have a theorem counter for the subsequent \newtheorem calls.
+\@ifundefined{theorem}{%
+\newtheorem{theorem}{Theorem}[section]
+}{}
+
 \newtheorem{algorithm}{Algorithm}
 \newtheorem{axiom}[theorem]{Axiom}
 
-% Possible definition-style theorem-like environments
+% Possible definition-style theorem-like environments:
 %   Condition  Exercise Solution
 %   Definition Problem
 %   Example    Property
@@ -198,7 +203,7 @@
 
 %\newtheorem{xxxxxx}[theorem]{Xxxxxx}
 
-% Possible remark-style theorem-like environments
+% Possible remark-style theorem-like environments:
 %   Answer     Convention  Question
 %   Assumption Discussion  Remark
 %   Case       Fact        Step
