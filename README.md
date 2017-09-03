@@ -32,4 +32,4 @@ National Information Standards Organization. _Scientific and Technical Reports â
 
 National Information Standards Organization. _Bibliographic References_. Bethesda, MD: NISO Press; 2005. (ANSI/NISO Z39.29-2005 (R2010)). Available from: http://www.niso.org/
 
-Grey Literature International Steering Committee. _Guidelines for the Production of Scientific and Technical Reports: How to Write and Distribute Grey Literature_. Version 1.1. GLISC; 2007. Available from: http://www.glisc.info/
+Grey Literature International Steering Committee. _Guidelines for the Production of Scientific and Technical Reports: How to Write and Distribute Grey Literature_. Version 1.1. GLISC; 2007. Version 1.0 is available from: http://eprints.rclis.org/7469/1/nancy.pdf 
